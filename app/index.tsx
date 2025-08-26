@@ -1,15 +1,42 @@
-import { Text, View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginScreen from "./screen/loginScreen";
+import MainScreen from "./screen/mainScreen";
+
+const pages = createNativeStackNavigator();
+
+type pagesScreenType = {
+  name: string;
+  component: () => React.JSX.Element | undefined;
+};
+
+const pagesScreen: pagesScreenType[] = [
+  {
+    name: "login",
+    component: LoginScreen,
+  },
+  {
+    name: "main",
+    component: MainScreen,
+  },
+];
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <pages.Navigator initialRouteName="login">
+      {pagesScreen.map((page) => (
+        <pages.Screen
+          key={page.name}
+          name={page.name}
+          component={page.component}
+          options={{ headerShown: false }}
+        />
+      ))}
+    </pages.Navigator>
   );
 }
+
+type PageName = (typeof pagesScreen)[number]["name"];
+
+export type RootStackParamList = {
+  [K in PageName]: undefined | { data: any };
+};

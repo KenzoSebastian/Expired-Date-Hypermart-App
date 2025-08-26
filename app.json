@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "expired-date-hypermart-app",
+    "name": "Expired Date Hypermart App",
     "slug": "expired-date-hypermart-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "scheme": "expireddatehypermartapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,9 +14,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": false
     },
     "web": {
       "bundler": "metro",
