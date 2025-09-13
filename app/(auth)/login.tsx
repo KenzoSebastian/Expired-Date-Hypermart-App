@@ -1,4 +1,6 @@
-import { COLORS } from "@/style/Colors";
+import { loginStyles } from "@/assets/styles/login.styles";
+import { useSignIn } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "expo-image";
 import { useState } from "react";
 import {
@@ -12,9 +14,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useSignIn } from "@clerk/clerk-expo";
-import { useRouter } from "expo-router";
 
 const LoginScreen = () => {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -23,7 +22,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordSecure, setPasswordSecure] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -66,13 +64,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.primary,
-        paddingHorizontal: 20,
-      }}
-    >
+    <View style={loginStyles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
@@ -82,68 +74,22 @@ const LoginScreen = () => {
         >
           <Image
             source={require("@/assets/images/logo2.png")}
-            style={{
-              width: "100%",
-              objectFit: "contain",
-              height: 150,
-              marginVertical: 50,
-            }}
+            style={loginStyles.headerImage}
           />
-          <Text
-            style={{
-              color: "white",
-              fontSize: 31,
-              fontWeight: "bold",
-            }}
-          >
-            Expired Date Check App
-          </Text>
+          <Text style={loginStyles.headerText}>Expired Date Check App</Text>
           <ImageBackground
             source={require("@/assets/images/bg-login-form.png")}
-            style={{
-              width: "100%",
-              height: 430,
-              marginTop: 30,
-              borderRadius: 30,
-              overflow: "hidden",
-            }}
+            style={loginStyles.box}
           >
-            <View
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                padding: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 32,
-                  fontWeight: "bold",
-                }}
-              >
-                Sign In
-              </Text>
+            <View style={loginStyles.overlayBox}>
+              <Text style={loginStyles.headerBoxText}>Sign In</Text>
               {Error !== "" && (
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "red",
-                    marginTop: 10,
-                    fontWeight: "bold",
-                    width: "80%",
-                  }}
-                >
-                  {Error}
-                </Text>
+                <Text style={loginStyles.errorText}>{Error}</Text>
               )}
-
               <Text
                 style={{
-                  fontSize: 18,
                   marginTop: Error !== "" ? 15 : 40,
-                  marginBottom: 10,
-                  fontWeight: "500",
+                  ...loginStyles.label,
                 }}
               >
                 Username
@@ -152,12 +98,7 @@ const LoginScreen = () => {
                 style={{
                   borderWidth: Error !== "" ? 2 : 1,
                   borderColor: Error !== "" ? "red" : "#000000",
-                  borderRadius: 10,
-                  padding: 10,
-                  marginTop: 10,
-                  fontSize: 16,
-                  backgroundColor: "#ffffff",
-                  boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)",
+                  ...loginStyles.textFieldUsername,
                 }}
                 placeholder="input username / store code..."
                 focusable={true}
@@ -170,25 +111,17 @@ const LoginScreen = () => {
               />
               <Text
                 style={{
-                  fontSize: 18,
                   marginTop: 20,
-                  marginBottom: 10,
-                  fontWeight: "500",
+                  ...loginStyles.label,
                 }}
               >
                 Password
               </Text>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
                   borderWidth: Error !== "" ? 2 : 1,
                   borderColor: Error !== "" ? "red" : "#000000",
-                  borderRadius: 10,
-                  backgroundColor: "#ffffff",
-                  boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)",
-                  paddingHorizontal: 10,
-                  marginTop: 10,
+                  ...loginStyles.wrapperInput,
                 }}
               >
                 <TextInput
@@ -215,43 +148,19 @@ const LoginScreen = () => {
                   />
                 </TouchableOpacity>
               </View>
-
-              <View
-                style={{
-                  alignItems: "flex-end",
-                  width: "100%",
-                  marginTop: 20,
-                }}
-              >
+              <View style={loginStyles.footer}>
                 <TouchableOpacity
                   onPress={handleLogin}
                   activeOpacity={0.8}
                   disabled={loading}
                   style={{
-                    backgroundColor: COLORS.secondary,
-                    borderRadius: 10,
-                    paddingHorizontal: 20,
-                    paddingVertical: 10,
-                    marginTop: 20,
                     opacity: loading ? 0.7 : 1,
+                    ...loginStyles.buttonSignIn,
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "#ffff",
-                      fontSize: 18,
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <Text style={loginStyles.buttonSignInText}>
                     {loading ? "Signing in..." : "Sign In"}
                   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    router.replace("/");
-                  }}
-                >
-                  <Text>pergi ke main</Text>
                 </TouchableOpacity>
               </View>
             </View>
