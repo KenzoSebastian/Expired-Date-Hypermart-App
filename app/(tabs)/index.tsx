@@ -1,3 +1,4 @@
+import { COLORS } from "@/constants/Colors";
 import { useClerk } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -20,6 +21,7 @@ const MainScreen = () => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: COLORS.backgroundApps,
       }}
     >
       <TouchableOpacity
@@ -47,13 +49,6 @@ const MainScreen = () => {
         <Text style={{ color: "white", fontSize: 20 }}>login</Text>
       </TouchableOpacity>
       <Text>Main Screen yang baru</Text>
-      <TouchableOpacity
-        onPress={() => {
-          router.replace("/test");
-        }}
-      >
-        <Text>pergi ke test</Text>
-      </TouchableOpacity>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { COLORS } from "@/style/Colors";
+import { COLORS } from "@/constants/Colors";
 import { StyleSheet } from "react-native";
 
 export const loginStyles = StyleSheet.create({
