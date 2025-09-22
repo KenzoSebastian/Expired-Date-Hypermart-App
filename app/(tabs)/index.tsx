@@ -1,54 +1,46 @@
+import { homeStyles } from "@/assets/styles/home.style";
 import { COLORS } from "@/constants/Colors";
-import { useClerk } from "@clerk/clerk-expo";
-import { useRouter } from "expo-router";
+import { numberSplit } from "@/utils/numberSplit";
+import { useUser } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 const MainScreen = () => {
-  const router = useRouter();
-  const { signOut } = useClerk();
+  const [storeCode, setStoreCode] = useState<number>();
+  const { user } = useUser();
 
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      router.replace("/login");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    const code = numberSplit(user?.emailAddresses[0]?.emailAddress || "");
+    setStoreCode(Number(code));
+  }, [user]);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: COLORS.backgroundApps,
-      }}
-    >
-      <TouchableOpacity
-        onPress={handleLogout}
-        style={{
-          marginBottom: 20,
-          padding: 15,
-          backgroundColor: "red",
-          borderRadius: 5,
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 20 }}>Logout</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          router.replace("/login");
-        }}
-        style={{
-          marginBottom: 20,
-          padding: 15,
-          backgroundColor: "blue",
-          borderRadius: 5,
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 20 }}>login</Text>
-      </TouchableOpacity>
-      <Text>Main Screen yang baru</Text>
+    <View style={homeStyles.container}>
+      <View style={homeStyles.navigationHeader}>
+        <Image
+          source={require("@/assets/images/logo2.png")}
+          style={homeStyles.navigationLogo}
+          contentFit="contain"
+        />
+        <View>
+          <Text style={homeStyles.textNav1}>HPM - {storeCode}</Text>
+          <Text style={homeStyles.textNav2}>
+            {user ? `@${user.username}` : "unknown"}
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => console.log("Notification icon pressed")}
+          style={{ marginLeft: "auto" }}
+        >
+          <Ionicons
+            name="notifications-outline"
+            size={35}
+            color={COLORS.backgroundUtils}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
