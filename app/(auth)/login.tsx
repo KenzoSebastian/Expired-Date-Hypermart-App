@@ -28,8 +28,10 @@ const LoginScreen = () => {
       setError("Please enter both username and password.");
       return;
     }
-
-    if (!isLoaded) return;
+    if (!isLoaded) {
+      setError("Authentication service is not ready. Please try again later.");
+      return;
+    }
 
     setLoading(true);
     try {

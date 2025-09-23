@@ -1,9 +1,14 @@
-import { View, Text } from "react-native";
+import { NavbarComponent } from "@/components/Navbar";
+import { COLORS } from "@/constants/Colors";
 import React from "react";
+import { Text, View } from "react-native";
 
 const Search = () => {
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
+      {/* navigation bar */}
+      <NavbarComponent />
+      {/* content */}
       <Text>Search Screen</Text>
     </View>
   );
