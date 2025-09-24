@@ -2,9 +2,20 @@ import { homeStyles, InventorySectionStyles } from "@/assets/styles/home.style";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
 import { COLORS } from "@/constants/Colors";
+import { fetchProducts } from "@/services/ProductsAPI.244";
+import { Button } from "@react-navigation/elements";
+import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 const MainScreen = () => {
+  const [products, setProducts] = useState<any>([]);
+
+  const handleFetchProducts = async () => {
+    const { data } = await fetchProducts();
+    setProducts(data);
+
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
       {/* navigation bar */}
@@ -51,6 +62,12 @@ const MainScreen = () => {
           />
         </View>
         {/* list of products */}
+        <Button onPress={handleFetchProducts}>fetching products</Button>
+        {products.map((product: any) => (
+          <View key={product.id} style={{ padding: 10 }}>
+            <Text style={{ color: "black" }}>{product.description}</Text>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );
