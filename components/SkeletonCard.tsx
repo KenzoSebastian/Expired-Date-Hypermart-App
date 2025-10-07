@@ -3,8 +3,10 @@ import { skeletonStyles } from "@/assets/styles/skeleton.styles";
 import { COLORS } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import SkeletonLoading from "expo-skeleton-loading";
-import React from "react";
+import React, { ElementType } from "react";
 import { View } from "react-native";
+
+const SkeletonLoadingElement: ElementType<typeof SkeletonLoading> | any = SkeletonLoading;
 
 const skeletonProps = {
   background: COLORS.skeleton,
@@ -15,7 +17,7 @@ const SkeletonCard = () => {
   return (
     <View style={{ ...productListSectionStyles.cardProduct }}>
       <View style={{ flex: 1, gap: 5, height: "100%" }}>
-        <SkeletonLoading {...skeletonProps}>
+        <SkeletonLoadingElement {...skeletonProps}>
           <View
             style={{
               width: 175,
@@ -24,8 +26,8 @@ const SkeletonCard = () => {
               ...skeletonStyles.dummyContent,
             }}
           />
-        </SkeletonLoading>
-        <SkeletonLoading {...skeletonProps}>
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
           <View
             style={{
               width: 75,
@@ -33,8 +35,8 @@ const SkeletonCard = () => {
               ...skeletonStyles.dummyContent,
             }}
           />
-        </SkeletonLoading>
-        <SkeletonLoading {...skeletonProps}>
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
           <View
             style={{
               width: 105,
@@ -42,8 +44,8 @@ const SkeletonCard = () => {
               ...skeletonStyles.dummyContent,
             }}
           />
-        </SkeletonLoading>
-        <SkeletonLoading {...skeletonProps}>
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
           <View
             style={{
               width: 140,
@@ -51,11 +53,11 @@ const SkeletonCard = () => {
               ...skeletonStyles.dummyContent,
             }}
           />
-        </SkeletonLoading>
+        </SkeletonLoadingElement>
       </View>
-      <SkeletonLoading {...skeletonProps}>
+      <SkeletonLoadingElement {...skeletonProps}>
         <Ionicons name="chevron-forward" size={40} color={COLORS.secondary} />
-      </SkeletonLoading>
+      </SkeletonLoadingElement>
     </View>
   );
 };
