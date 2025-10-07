@@ -5,10 +5,9 @@ export const homeStyles = StyleSheet.create({
   scrollViewContainer: {
     paddingHorizontal: 15,
     paddingVertical: 25,
-    height: 1000000,
+    // height: 1000000,
   },
   headingSection: {
-    fontSize: 33,
     fontWeight: 800,
     marginBottom: 15,
   },
@@ -80,5 +79,63 @@ export const InventorySectionStyles = StyleSheet.create({
   footerTextperiod: {
     color: "#FFFFFF",
     fontSize: 12,
+  },
+});
+
+export const productListSectionStyles = StyleSheet.create({
+  headingContainer: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  boxTriggerDropdown: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 8,
+    paddingVertical: 7,
+    paddingHorizontal: 5,
+    backgroundColor: COLORS.backgroundUtils,
+    width: 110,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  boxDropDown: {
+    borderColor: COLORS.border,
+    borderRadius: 5,
+    backgroundColor: COLORS.backgroundUtils,
+    width: 110,
+    position: "absolute",
+    top: 30,
+    zIndex: 1,
+  },
+  itemDropDown: {
+    marginVertical: -2,
+    marginHorizontal: -12,
+  },
+  productListContainer: {
+    gap: 10,
+    marginTop: 20,
+  },
+  cardProduct: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: COLORS.card,
+    borderRadius: 7,
+    boxShadow: "2px 4px 9px 0px rgba(0, 0, 0, 0.25)",
+  },
+  headingCardProduct: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 10,
+    color: COLORS.secondary,
+  },
+  subHeadingCardProduct: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: COLORS.subText,
   },
 });
