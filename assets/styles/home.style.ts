@@ -9,7 +9,6 @@ export const homeStyles = StyleSheet.create({
   },
   headingSection: {
     fontWeight: 800,
-    marginBottom: 15,
   },
 });
 
@@ -46,6 +45,7 @@ export const InventorySectionStyles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     rowGap: 15,
+    marginVertical: 15,
   },
   InventoryOverViewItem: {
     width: "47%",
@@ -119,7 +119,7 @@ export const productListSectionStyles = StyleSheet.create({
   },
   productListContainer: {
     gap: 10,
-    marginTop: 20,
+    marginTop: 30,
   },
   cardProduct: {
     width: "100%",

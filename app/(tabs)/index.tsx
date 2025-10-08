@@ -22,8 +22,8 @@ const MainScreen = () => {
   });
   const [productList, setProductList] = useState([]);
   const [error, setError] = useState<boolean>(false);
-  const [sorting, setSorting] = useState<"asc" | "desc">("asc");
-  const [textSorting, setTextSorting] = useState<boolean>(false);
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [textorder, setTextOrder] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<"description" | "expiredDate" | "createdAt">(
     "expiredDate"
   );
@@ -40,7 +40,7 @@ const MainScreen = () => {
 
     try {
       const queryProductCounts = getCountProductsByCategory();
-      const queryProductList = fetchAllProducts(selectedCategory);
+      const queryProductList = fetchAllProducts(selectedCategory, order);
 
       const [dataProductCounts, { data: dataProductList }] = await Promise.all([
         queryProductCounts,
@@ -64,35 +64,36 @@ const MainScreen = () => {
       setError(false);
       setProductList([]);
       try {
-        const { data } = await fetchAllProducts(selectedCategory);
+        const { data } = await fetchAllProducts(selectedCategory, order);
         setProductList(data);
       } catch (error) {
         setError(true);
         console.log("Error fetching data:", error);
       }
     })();
-  }, [selectedCategory]);
+  }, [selectedCategory, order]);
 
   useEffect(() => {
-    if (textSorting) {
+    if (textorder) {
       setTimeout(() => {
-        setTextSorting(false);
-      }, 2000);
+        setTextOrder(false);
+      }, 1000);
     }
-  }, [textSorting]);
+  }, [textorder]);
 
   const config = {
-    duration: 500,
+    duration: 300,
     easing: Easing.bezier(0.5, 0.01, 0, 1),
   };
 
   const animatesStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateY: withTiming(textSorting ? 25 : 0, config) },
+        { translateY: withTiming(textorder ? 25 : 0, config) },
+        { scaleY: withTiming(textorder ? 1 : 0, config) },
         { translateX: withTiming(35, config) },
       ],
-      opacity: withTiming(textSorting ? 1 : 0, config),
+      opacity: withTiming(textorder ? 1 : 0, config),
     };
   });
 
@@ -146,17 +147,17 @@ const MainScreen = () => {
           <Text style={{ ...homeStyles.headingSection, fontSize: 25 }}>List of Products</Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5, position: "relative" }}>
             <Animated.Text style={[{ fontSize: 15, fontWeight: "semibold" }, animatesStyle]}>
-              {sorting}
+              {order}
             </Animated.Text>
             <TouchableOpacity
               onPress={() => {
-                setSorting(sorting === "asc" ? "desc" : "asc");
-                setTextSorting(true);
+                setOrder(order === "asc" ? "desc" : "asc");
+                setTextOrder(true);
               }}
               activeOpacity={0.6}
               disabled={productList.length === 0}
             >
-              {sorting === "asc" ? (
+              {order === "asc" ? (
                 <Image source={require(`@/assets/images/asc.png`)} style={{ width: 30, height: 30 }} />
               ) : (
                 <Image source={require(`@/assets/images/desc.png`)} style={{ width: 30, height: 30 }} />

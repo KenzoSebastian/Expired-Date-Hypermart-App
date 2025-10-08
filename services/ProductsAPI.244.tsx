@@ -1,11 +1,14 @@
 import { ProductsAPI } from "@/server/api";
 
-export const fetchAllProducts = async (sortBy?: "description" | "expiredDate" | "createdAt") => {
+export const fetchAllProducts = async (
+  sortBy?: "description" | "expiredDate" | "createdAt",
+  order?: "asc" | "desc"
+) => {
   try {
-    const { data } = await ProductsAPI.get(`/products/?sortby=${sortBy}&page=1&limit=10`);
+    const { data } = await ProductsAPI.get(`/products/?sortby=${sortBy}&order=${order}&page=1&limit=10`);
     return data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.log("Error fetching products:", error);
     throw error;
   }
 };
