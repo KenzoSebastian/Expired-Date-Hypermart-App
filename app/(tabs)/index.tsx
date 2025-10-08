@@ -9,8 +9,9 @@ import { fetchAllProducts, getCountProductsByCategory } from "@/services/Product
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
+import Animated, { Easing, useAnimatedStyle, withTiming } from "react-native-reanimated";
 
 const MainScreen = () => {
   const [productCounts, setProductCounts] = useState({
@@ -21,7 +22,11 @@ const MainScreen = () => {
   });
   const [productList, setProductList] = useState([]);
   const [error, setError] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>("name");
+  const [sorting, setSorting] = useState<"asc" | "desc">("asc");
+  const [textSorting, setTextSorting] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<"description" | "expiredDate" | "createdAt">(
+    "expiredDate"
+  );
 
   const fetchCoreData = async () => {
     setProductCounts({
@@ -35,7 +40,7 @@ const MainScreen = () => {
 
     try {
       const queryProductCounts = getCountProductsByCategory();
-      const queryProductList = fetchAllProducts();
+      const queryProductList = fetchAllProducts(selectedCategory);
 
       const [dataProductCounts, { data: dataProductList }] = await Promise.all([
         queryProductCounts,
@@ -51,11 +56,45 @@ const MainScreen = () => {
   };
   useEffect(() => {
     fetchCoreData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log(selectedCategory);
+    (async () => {
+      setError(false);
+      setProductList([]);
+      try {
+        const { data } = await fetchAllProducts(selectedCategory);
+        setProductList(data);
+      } catch (error) {
+        setError(true);
+        console.log("Error fetching data:", error);
+      }
+    })();
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (textSorting) {
+      setTimeout(() => {
+        setTextSorting(false);
+      }, 2000);
+    }
+  }, [textSorting]);
+
+  const config = {
+    duration: 500,
+    easing: Easing.bezier(0.5, 0.01, 0, 1),
+  };
+
+  const animatesStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateY: withTiming(textSorting ? 25 : 0, config) },
+        { translateX: withTiming(35, config) },
+      ],
+      opacity: withTiming(textSorting ? 1 : 0, config),
+    };
+  });
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
@@ -105,21 +144,41 @@ const MainScreen = () => {
         {/* list of products */}
         <View style={productListSectionStyles.headingContainer}>
           <Text style={{ ...homeStyles.headingSection, fontSize: 25 }}>List of Products</Text>
-          <SelectList
-            setSelected={(val: string) => setSelectedCategory(val)}
-            data={[
-              { key: "2", value: "name" },
-              { key: "3", value: "date created" },
-              { key: "4", value: "date expiring" },
-            ]}
-            save="value"
-            search={false}
-            arrowicon={<Ionicons name="chevron-down" size={15} color="black" />}
-            placeholder="sort by"
-            boxStyles={productListSectionStyles.boxTriggerDropdown}
-            dropdownStyles={productListSectionStyles.boxDropDown}
-            dropdownItemStyles={productListSectionStyles.itemDropDown}
-          />
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 5, position: "relative" }}>
+            <Animated.Text style={[{ fontSize: 15, fontWeight: "semibold" }, animatesStyle]}>
+              {sorting}
+            </Animated.Text>
+            <TouchableOpacity
+              onPress={() => {
+                setSorting(sorting === "asc" ? "desc" : "asc");
+                setTextSorting(true);
+              }}
+              activeOpacity={0.6}
+              disabled={productList.length === 0}
+            >
+              {sorting === "asc" ? (
+                <Image source={require(`@/assets/images/asc.png`)} style={{ width: 30, height: 30 }} />
+              ) : (
+                <Image source={require(`@/assets/images/desc.png`)} style={{ width: 30, height: 30 }} />
+              )}
+            </TouchableOpacity>
+
+            <SelectList
+              setSelected={(val: "description" | "expiredDate" | "createdAt") => setSelectedCategory(val)}
+              data={[
+                { key: "description", value: "name" },
+                { key: "createdAt", value: "date created" },
+                { key: "expiredDate", value: "date expiring" },
+              ]}
+              save="key"
+              search={false}
+              arrowicon={<Ionicons name="chevron-down" size={15} color="black" />}
+              placeholder="sort by"
+              boxStyles={productListSectionStyles.boxTriggerDropdown}
+              dropdownStyles={productListSectionStyles.boxDropDown}
+              dropdownItemStyles={{ ...productListSectionStyles.itemDropDown }}
+            />
+          </View>
         </View>
         <View style={productListSectionStyles.productListContainer}>
           {productList.length > 0 ? (

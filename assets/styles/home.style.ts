@@ -88,6 +88,10 @@ export const productListSectionStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  iconAscDesc: {
+    width: 20,
+    height: 20,
+  },
   boxTriggerDropdown: {
     borderWidth: 1,
     borderColor: COLORS.border,

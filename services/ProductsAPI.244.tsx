@@ -1,8 +1,8 @@
 import { ProductsAPI } from "@/server/api";
 
-export const fetchAllProducts = async () => {
+export const fetchAllProducts = async (sortBy?: "description" | "expiredDate" | "createdAt") => {
   try {
-    const { data } = await ProductsAPI.get("/products/?page=1&limit=10");
+    const { data } = await ProductsAPI.get(`/products/?sortby=${sortBy}&page=1&limit=10`);
     return data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -10,7 +10,9 @@ export const fetchAllProducts = async () => {
   }
 };
 
-export const fetchCategoryProducts = async (category: "expired" | "expiringSoon" | "expiringLater" | "goodProducts") => {
+export const fetchCategoryProducts = async (
+  category: "expired" | "expiringSoon" | "expiringLater" | "goodProducts"
+) => {
   try {
     const { data } = await ProductsAPI.get(`/productCategories/${category}?page=1&limit=10`);
     return data;
@@ -33,7 +35,7 @@ export const getCountProductsByCategory = async () => {
       queryExpiringLater,
       queryGoodProduct,
     ]);
-    
+
     return {
       expired: dataExpired.meta.totalItems,
       expiringSoon: dataExpiringSoon.meta.totalItems,
