@@ -1,3 +1,4 @@
+import { errorStyles } from "@/assets/styles/error.styles";
 import { homeStyles, InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
 import CardProduct from "@/components/CardProduct";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
@@ -6,6 +7,7 @@ import SkeletonCard from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
 import { fetchAllProducts, getCountProductsByCategory } from "@/services/ProductsAPI.244";
 import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -18,6 +20,7 @@ const MainScreen = () => {
     goodProducts: 0,
   });
   const [productList, setProductList] = useState([]);
+  const [error, setError] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("name");
 
   const fetchCoreData = async () => {
@@ -27,6 +30,7 @@ const MainScreen = () => {
       expiringLater: 0,
       goodProducts: 0,
     });
+    setError(false);
     setProductList([]);
 
     try {
@@ -38,10 +42,11 @@ const MainScreen = () => {
         queryProductList,
       ]);
 
-      setProductCounts(dataProductCounts);
       setProductList(dataProductList);
+      setProductCounts(dataProductCounts);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      setError(true);
+      console.log("Error fetching data:", error);
     }
   };
   useEffect(() => {
@@ -119,6 +124,11 @@ const MainScreen = () => {
         <View style={productListSectionStyles.productListContainer}>
           {productList.length > 0 ? (
             productList.map((product: any) => <CardProduct key={product.id} {...product} />)
+          ) : error ? (
+            <View style={errorStyles.container}>
+              <Image source={require("@/assets/images/error-icon.png")} style={errorStyles.logo} />
+              <Text style={errorStyles.text}>Error fetching data, please try again...</Text>
+            </View>
           ) : (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           )}
