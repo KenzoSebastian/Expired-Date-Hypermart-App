@@ -135,11 +135,31 @@ export const productListSectionStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 10,
+    maxWidth: 270,
     color: COLORS.secondary,
   },
   subHeadingCardProduct: {
     fontSize: 12,
     fontWeight: "400",
     color: COLORS.subText,
+  },
+});
+
+export const footerStyles = StyleSheet.create({
+  footerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "flex-end",
+    alignItems: "center",
+    width: "40%",
+    marginTop: 20,
+  },
+  pageBox: {
+    width: 35,
+    height: 35,
+    borderRadius: 8,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

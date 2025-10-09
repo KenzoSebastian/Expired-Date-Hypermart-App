@@ -10,4 +10,5 @@ export const COLORS = {
   border: "#e20404ff",
   card: "#EEF8ED",
   skeleton: "#adadad",
+  disableButton: "#dcdcdcff",
 };

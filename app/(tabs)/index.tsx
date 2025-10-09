@@ -1,6 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { errorStyles } from "@/assets/styles/error.styles";
-import { homeStyles, InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
+import {
+  footerStyles,
+  homeStyles,
+  InventorySectionStyles,
+  productListSectionStyles,
+} from "@/assets/styles/home.style";
 import CardProduct from "@/components/CardProduct";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
@@ -23,6 +28,8 @@ const MainScreen = () => {
     productCounts,
     productList,
     setProductList,
+    metaData,
+    setMetaData,
     error,
     setError,
     selectedCategory,
@@ -47,6 +54,19 @@ const MainScreen = () => {
       }
     })();
   }, [selectedCategory, order]);
+
+  const handleNextPage = async (goToPage: number) => {
+    setProductList([]);
+    setError(false);
+    try {
+      const { data, meta } = await fetchAllProducts(selectedCategory, order, goToPage);
+      setProductList(data);
+      setMetaData(meta);
+    } catch (error) {
+      setError(true);
+      console.log("Error fetching data:", error);
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
@@ -109,9 +129,15 @@ const MainScreen = () => {
               disabled={productList.length === 0}
             >
               {order === "asc" ? (
-                <Image source={require(`@/assets/images/asc.png`)} style={{ width: 30, height: 30 }} />
+                <Image
+                  source={require(`@/assets/images/asc.png`)}
+                  style={{ width: 30, height: 30, opacity: productList.length === 0 ? 0.5 : 1 }}
+                />
               ) : (
-                <Image source={require(`@/assets/images/desc.png`)} style={{ width: 30, height: 30 }} />
+                <Image
+                  source={require(`@/assets/images/desc.png`)}
+                  style={{ width: 30, height: 30, opacity: productList.length === 0 ? 0.5 : 1 }}
+                />
               )}
             </TouchableOpacity>
 
@@ -144,6 +170,51 @@ const MainScreen = () => {
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           )}
         </View>
+        {!error && productList.length > 0 && (
+          <View style={footerStyles.footerContainer}>
+            <TouchableOpacity
+              activeOpacity={0}
+              disabled={metaData.hasPrevPage === false}
+              style={{
+                ...footerStyles.pageBox,
+                backgroundColor:
+                  metaData.hasPrevPage === false ? COLORS.disableButton : COLORS.backgroundUtils,
+                borderColor: metaData.hasPrevPage === false ? "gray" : COLORS.border,
+              }}
+              onPress={() => handleNextPage(metaData.page - 1)}
+            >
+              <Ionicons
+                name="chevron-back"
+                size={20}
+                style={{ opacity: metaData.hasPrevPage === false ? 0.5 : 1 }}
+              />
+            </TouchableOpacity>
+
+            <View>
+              <Text>
+                {metaData.page} / {metaData.totalPages}
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0}
+              disabled={metaData.hasNextPage === false}
+              style={{
+                ...footerStyles.pageBox,
+                backgroundColor:
+                  metaData.hasNextPage === false ? COLORS.disableButton : COLORS.backgroundUtils,
+                borderColor: metaData.hasNextPage === false ? "gray" : COLORS.border,
+              }}
+              onPress={() => handleNextPage(metaData.page + 1)}
+            >
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                style={{ opacity: metaData.hasNextPage === false ? 0.5 : 1 }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
