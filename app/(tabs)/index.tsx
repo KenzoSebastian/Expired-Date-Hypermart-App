@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { errorStyles } from "@/assets/styles/error.styles";
 import { homeStyles, InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
 import CardProduct from "@/components/CardProduct";
@@ -5,58 +6,32 @@ import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
 import SkeletonCard from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
-import { fetchAllProducts, getCountProductsByCategory } from "@/services/ProductsAPI.244";
+import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
+import { useFetchData } from "@/hooks/useFetchData";
+import { fetchAllProducts } from "@/services/ProductsAPI.244";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
-import Animated, { Easing, useAnimatedStyle, withTiming } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
 const MainScreen = () => {
-  const [productCounts, setProductCounts] = useState({
-    expired: 0,
-    expiringSoon: 0,
-    expiringLater: 0,
-    goodProducts: 0,
-  });
-  const [productList, setProductList] = useState([]);
-  const [error, setError] = useState<boolean>(false);
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [textorder, setTextOrder] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<"description" | "expiredDate" | "createdAt">(
-    "expiredDate"
-  );
+  const { order, setOrder, setTextOrder, animatesStyle } = useAnimatedOrder();
 
-  const fetchCoreData = async () => {
-    setProductCounts({
-      expired: 0,
-      expiringSoon: 0,
-      expiringLater: 0,
-      goodProducts: 0,
-    });
-    setError(false);
-    setProductList([]);
+  const {
+    productCounts,
+    productList,
+    setProductList,
+    error,
+    setError,
+    selectedCategory,
+    setSelectedCategory,
+    fetchCoreData,
+  } = useFetchData();
 
-    try {
-      const queryProductCounts = getCountProductsByCategory();
-      const queryProductList = fetchAllProducts(selectedCategory, order);
-
-      const [dataProductCounts, { data: dataProductList }] = await Promise.all([
-        queryProductCounts,
-        queryProductList,
-      ]);
-
-      setProductList(dataProductList);
-      setProductCounts(dataProductCounts);
-    } catch (error) {
-      setError(true);
-      console.log("Error fetching data:", error);
-    }
-  };
   useEffect(() => {
-    fetchCoreData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchCoreData(order);
   }, []);
 
   useEffect(() => {
@@ -73,30 +48,6 @@ const MainScreen = () => {
     })();
   }, [selectedCategory, order]);
 
-  useEffect(() => {
-    if (textorder) {
-      setTimeout(() => {
-        setTextOrder(false);
-      }, 1000);
-    }
-  }, [textorder]);
-
-  const config = {
-    duration: 300,
-    easing: Easing.bezier(0.5, 0.01, 0, 1),
-  };
-
-  const animatesStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateY: withTiming(textorder ? 25 : 0, config) },
-        { scaleY: withTiming(textorder ? 1 : 0, config) },
-        { translateX: withTiming(35, config) },
-      ],
-      opacity: withTiming(textorder ? 1 : 0, config),
-    };
-  });
-
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
       {/* navigation bar */}
@@ -104,7 +55,7 @@ const MainScreen = () => {
       <ScrollView
         contentContainerStyle={homeStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={false} onRefresh={fetchCoreData} />}
+        refreshControl={<RefreshControl refreshing={false} onRefresh={() => fetchCoreData(order)} />}
       >
         {/* grid of categories */}
         <Text style={{ ...homeStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>
