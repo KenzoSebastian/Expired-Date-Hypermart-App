@@ -1,10 +1,37 @@
 import { ProductsAPI } from "@/server/api";
 
+export interface Product {
+  id: number;
+  sjStmNumber: string;
+  skuNumber: number;
+  description: string;
+  quantity: number;
+  expiredDate: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface meta {
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface apiProductType {
+  status: "success" | "error";
+  message: string;
+  data: Product[];
+  meta: meta;
+}
+
 export const fetchAllProducts = async (
   sortBy: "description" | "expiredDate" | "createdAt" = "expiredDate",
   order: "asc" | "desc" = "asc",
   page: number = 1
-) => {
+): Promise<apiProductType> => {
   try {
     const { data } = await ProductsAPI.get(
       `/products/?sortby=${sortBy}&order=${order}&page=${page}&limit=10`
