@@ -47,23 +47,6 @@ export const loginStyles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "500",
   },
-  textFieldUsername: {
-    borderRadius: 10,
-    padding: 10,
-    marginTop: 10,
-    fontSize: 16,
-    backgroundColor: "#ffffff",
-    boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)",
-  },
-  wrapperInput: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 10,
-    backgroundColor: "#ffffff",
-    boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)",
-    paddingHorizontal: 10,
-    marginTop: 10,
-  },
   footer: {
     alignItems: "flex-end",
     width: "100%",

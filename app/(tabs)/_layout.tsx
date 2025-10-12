@@ -18,6 +18,7 @@ const TabsLayout = () => {
         tabBarInactiveTintColor: COLORS.secondaryInactive,
         tabBarStyle: tabBarStyle.tabBar,
         tabBarLabelStyle: tabBarStyle.label,
+        animation: "shift",
       }}
     >
       <Tabs.Screen
@@ -25,12 +26,7 @@ const TabsLayout = () => {
         options={{
           title: "Products",
           tabBarIcon: ({ color }) => (
-            <Ionicons
-              name="fast-food-sharp"
-              color={color}
-              size={29}
-              style={tabBarStyle.icon}
-            />
+            <Ionicons name="fast-food-sharp" color={color} size={29} style={tabBarStyle.icon} />
           ),
         }}
       />
@@ -39,12 +35,7 @@ const TabsLayout = () => {
         options={{
           title: "Search",
           tabBarIcon: ({ color }) => (
-            <Ionicons
-              name="search"
-              size={29}
-              color={color}
-              style={tabBarStyle.icon}
-            />
+            <Ionicons name="search" size={29} color={color} style={tabBarStyle.icon} />
           ),
         }}
       />
@@ -53,12 +44,7 @@ const TabsLayout = () => {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <Ionicons
-              name="person"
-              size={29}
-              color={color}
-              style={tabBarStyle.icon}
-            />
+            <Ionicons name="person" size={29} color={color} style={tabBarStyle.icon} />
           ),
         }}
       />

@@ -1,4 +1,4 @@
-import { navBarStyles } from "@/assets/styles/home.style";
+import { navBarStyles } from "@/assets/styles/global.styles";
 import { COLORS } from "@/constants/Colors";
 import { numberSplit } from "@/utils/numberSplit";
 import { useUser } from "@clerk/clerk-expo";
@@ -25,19 +25,13 @@ export const NavbarComponent = () => {
       />
       <View>
         <Text style={navBarStyles.textNav1}>HPM - {storeCode}</Text>
-        <Text style={navBarStyles.textNav2}>
-          {user ? `@${user.username}` : "unknown"}
-        </Text>
+        <Text style={navBarStyles.textNav2}>{user ? `@${user.username}` : "unknown"}</Text>
       </View>
       <TouchableOpacity
         onPress={() => console.log("Notification icon pressed")}
         style={{ marginLeft: "auto" }}
       >
-        <Ionicons
-          name="notifications-outline"
-          size={35}
-          color={COLORS.backgroundUtils}
-        />
+        <Ionicons name="notifications-outline" size={35} color={COLORS.backgroundUtils} />
       </TouchableOpacity>
     </View>
   );

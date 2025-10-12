@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { errorStyles } from "@/assets/styles/error.styles";
+import { globalStyles } from "@/assets/styles/global.styles";
 import {
   footerStyles,
-  homeStyles,
   InventorySectionStyles,
-  productListSectionStyles,
+  productListSectionStyles
 } from "@/assets/styles/home.style";
 import CardProduct from "@/components/CardProduct";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
@@ -46,8 +46,9 @@ const MainScreen = () => {
       setError(false);
       setProductList([]);
       try {
-        const { data } = await fetchAllProducts(selectedCategory, order);
+        const { data, meta } = await fetchAllProducts(selectedCategory, order);
         setProductList(data);
+        setMetaData(meta);
       } catch (error) {
         setError(true);
         console.log("Error fetching data:", error);
@@ -73,12 +74,12 @@ const MainScreen = () => {
       {/* navigation bar */}
       <NavbarComponent />
       <ScrollView
-        contentContainerStyle={homeStyles.scrollViewContainer}
+        contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={false} onRefresh={() => fetchCoreData(order)} />}
       >
         {/* grid of categories */}
-        <Text style={{ ...homeStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>
+        <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>
         <View style={InventorySectionStyles.InventoryOverViewGrid}>
           <ItemInventoryGrid
             backgroundColor="#1E1E1E"
@@ -114,8 +115,9 @@ const MainScreen = () => {
           />
         </View>
         {/* list of products */}
+        {/* product list heading */}
         <View style={productListSectionStyles.headingContainer}>
-          <Text style={{ ...homeStyles.headingSection, fontSize: 25 }}>List of Products</Text>
+          <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>List of Products</Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5, position: "relative" }}>
             <Animated.Text style={[{ fontSize: 15, fontWeight: "semibold" }, animatesStyle]}>
               {order}
@@ -158,6 +160,7 @@ const MainScreen = () => {
             />
           </View>
         </View>
+        {/* product list content */}
         <View style={productListSectionStyles.productListContainer}>
           {productList.length > 0 ? (
             productList.map((product: any) => <CardProduct key={product.id} {...product} />)
@@ -170,6 +173,7 @@ const MainScreen = () => {
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           )}
         </View>
+        {/* pagination */}
         {!error && productList.length > 0 && (
           <View style={footerStyles.footerContainer}>
             <TouchableOpacity

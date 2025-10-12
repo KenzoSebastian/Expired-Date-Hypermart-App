@@ -1,43 +1,6 @@
 import { COLORS } from "@/constants/Colors";
 import { StyleSheet } from "react-native";
 
-export const homeStyles = StyleSheet.create({
-  scrollViewContainer: {
-    paddingHorizontal: 15,
-    paddingVertical: 25,
-    // height: 1000000,
-  },
-  headingSection: {
-    fontWeight: 800,
-  },
-});
-
-export const navBarStyles = StyleSheet.create({
-  navigationHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    backgroundColor: COLORS.primary,
-    width: "100%",
-    gap: 10,
-    boxShadow: "0px 9px 18px -4px rgba(0, 0, 0, 0.4)",
-  },
-  navigationLogo: {
-    width: 140,
-    height: 80,
-  },
-  textNav1: {
-    color: COLORS.backgroundUtils,
-    fontSize: 20,
-    fontWeight: 900,
-  },
-  textNav2: {
-    color: COLORS.backgroundUtils,
-    fontSize: 14,
-  },
-});
-
 export const InventorySectionStyles = StyleSheet.create({
   InventoryOverViewGrid: {
     display: "flex",

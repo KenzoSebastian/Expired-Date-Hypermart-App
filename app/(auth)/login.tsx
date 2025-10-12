@@ -1,4 +1,6 @@
+import { globalStyles } from "@/assets/styles/global.styles";
 import { loginStyles } from "@/assets/styles/login.styles";
+import { COLORS } from "@/constants/Colors";
 import { useSignIn } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "expo-image";
@@ -67,27 +69,14 @@ const LoginScreen = () => {
 
   return (
     <View style={loginStyles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: "center" }}
-        >
-          <Image
-            source={require("@/assets/images/logo2.png")}
-            style={loginStyles.headerImage}
-          />
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: "center" }}>
+          <Image source={require("@/assets/images/logo2.png")} style={loginStyles.headerImage} />
           <Text style={loginStyles.headerText}>Expired Date Check App</Text>
-          <ImageBackground
-            source={require("@/assets/images/bg-login-form.png")}
-            style={loginStyles.box}
-          >
+          <ImageBackground source={require("@/assets/images/bg-login-form.png")} style={loginStyles.box}>
             <View style={loginStyles.overlayBox}>
               <Text style={loginStyles.headerBoxText}>Sign In</Text>
-              {Error !== "" && (
-                <Text style={loginStyles.errorText}>{Error}</Text>
-              )}
+              {Error !== "" && <Text style={loginStyles.errorText}>{Error}</Text>}
               <Text
                 style={{
                   marginTop: Error !== "" ? 15 : 40,
@@ -99,8 +88,8 @@ const LoginScreen = () => {
               <TextInput
                 style={{
                   borderWidth: Error !== "" ? 2 : 1,
-                  borderColor: Error !== "" ? "red" : "#000000",
-                  ...loginStyles.textFieldUsername,
+                  borderColor: Error !== "" ? "red" : COLORS.text,
+                  ...globalStyles.textField,
                 }}
                 placeholder="input username / store code..."
                 focusable={true}
@@ -122,8 +111,8 @@ const LoginScreen = () => {
               <View
                 style={{
                   borderWidth: Error !== "" ? 2 : 1,
-                  borderColor: Error !== "" ? "red" : "#000000",
-                  ...loginStyles.wrapperInput,
+                  borderColor: Error !== "" ? "red" : COLORS.text,
+                  ...globalStyles.wrapperInput,
                 }}
               >
                 <TextInput
@@ -160,9 +149,7 @@ const LoginScreen = () => {
                     ...loginStyles.buttonSignIn,
                   }}
                 >
-                  <Text style={loginStyles.buttonSignInText}>
-                    {loading ? "Signing in..." : "Sign In"}
-                  </Text>
+                  <Text style={loginStyles.buttonSignInText}>{loading ? "Signing in..." : "Sign In"}</Text>
                 </TouchableOpacity>
               </View>
             </View>
