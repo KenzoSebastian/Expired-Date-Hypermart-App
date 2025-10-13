@@ -7,20 +7,19 @@ import { NavbarComponent } from "@/components/Navbar";
 import SkeletonCard from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
-import { fetchAllProducts, getCountProductsByCategory } from "@/services/ProductsAPI.244";
+import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
+import { useGetProducts } from "@/hooks/useGetProduct";
+import { useGetReFetchData } from "@/hooks/useGetReFetchData";
+import { type ProductType } from "@/lib/api";
 import { Ionicons } from "@expo/vector-icons";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useState } from "react";
 import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import Animated from "react-native-reanimated";
-import { queryClient } from "../_layout";
 
 const MainScreen = () => {
-  const [selectedCategory, setSelectedCategory] = useState<"description" | "expiredDate" | "createdAt">(
-    "expiredDate"
-  );
+  const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">("expiredDate");
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [page, setPage] = useState(1);
@@ -31,35 +30,18 @@ const MainScreen = () => {
     data: productCounts,
     isLoading: isProductCountsLoading,
     isError: isProductCountsError,
-  } = useQuery({
-    queryKey: ["productCounts", isRefreshing],
-    queryFn: () => getCountProductsByCategory(),
-  });
+  } = useGetCategoryCount({ params: { isRefreshing } });
 
   const {
     data: productList,
     isLoading: isProductListLoading,
     isError: isProductListError,
-  } = useQuery({
-    queryKey: ["productList", selectedCategory, order, page, isRefreshing],
-    queryFn: () => fetchAllProducts(selectedCategory, order, page),
+  } = useGetProducts({
+    params: { sortBy, order, page, isRefreshing },
   });
 
-  const { mutate: reFetchData } = useMutation({
-    mutationFn: () => {
-      const fetchAllProductsQuery = fetchAllProducts(selectedCategory, order, page);
-      const getCountProductsByCategoryQuery = getCountProductsByCategory();
-      return Promise.all([fetchAllProductsQuery, getCountProductsByCategoryQuery]);
-    },
-    onSuccess: (data) => {
-      setIsRefreshing(true);
-      queryClient.invalidateQueries({
-        queryKey: ["productList", selectedCategory, order, page, isRefreshing],
-      });
-      queryClient.invalidateQueries({ queryKey: ["productCounts", isRefreshing] });
-      setIsRefreshing(false);
-    },
-  });
+  const { mutate: reFetchData } = useGetReFetchData({ params: { sortBy, order, page, setIsRefreshing } });
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
       {/* navigation bar */}
@@ -67,7 +49,7 @@ const MainScreen = () => {
       <ScrollView
         contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={reFetchData} />}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => reFetchData({order, sortBy, page})} />}
       >
         {/* grid of categories */}
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>
@@ -135,7 +117,7 @@ const MainScreen = () => {
             </TouchableOpacity>
 
             <SelectList
-              setSelected={(val: "description" | "expiredDate" | "createdAt") => setSelectedCategory(val)}
+              setSelected={(val: "description" | "expiredDate" | "createdAt") => setSortBy(val)}
               data={[
                 { key: "description", value: "name" },
                 { key: "createdAt", value: "date created" },
@@ -161,7 +143,7 @@ const MainScreen = () => {
               <Text style={errorStyles.text}>Error fetching data, please try again...</Text>
             </View>
           ) : (
-            productList!.data.map((product: any) => <CardProduct key={product.id} {...product} />)
+            productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
           )}
         </View>
         {/* pagination */}

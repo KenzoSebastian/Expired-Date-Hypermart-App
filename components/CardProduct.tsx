@@ -1,16 +1,10 @@
 import { productListSectionStyles } from "@/assets/styles/home.style";
 import { COLORS } from "@/constants/Colors";
+import { type ProductType } from "@/lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text } from "react-native";
 
-type CardProductProps = {
-  description: string;
-  quantity: number;
-  skuNumber: number;
-  expiredDate: string;
-};
-
-const CardProduct = ({ description, quantity, skuNumber, expiredDate }: CardProductProps) => {
+const CardProduct = ({ description, quantity, skuNumber, expiredDate }: ProductType) => {
   return (
     <View style={productListSectionStyles.cardProduct}>
       <View>
