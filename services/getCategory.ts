@@ -7,7 +7,7 @@ type categoryProps = {
 
 export const getCategory = async ({ category }: categoryProps): Promise<apiProductType> => {
   try {
-    const { data } = await ProductsAPI.get(`/productCategories/${category}?page=1&limit=10`);
+    const { data } = await ProductsAPI.get(`/categories/${category}?page=1&limit=10`);
     return data;
   } catch (error) {
     console.log("Error fetching category in getCategory function:", error);

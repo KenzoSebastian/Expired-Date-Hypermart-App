@@ -5,27 +5,29 @@ import { NavbarComponent } from "@/components/Navbar";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
 import { useGetProducts } from "@/hooks/useGetProduct";
+import { useGetSearchProducts } from "@/hooks/useGetSearchProducts";
 import { ProductType } from "@/lib/api";
 import { randomParams } from "@/utils/randomParams";
 import { Ionicons } from "@expo/vector-icons";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Image } from "expo-image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const debounceSearchProduct = useDebounce(searchValue, 1000);
-  // const [ getRandomParams, setGetRandomParams] = useState(randomParams());
+  const searchQuery = useDebounce(searchValue, 500);
   const {
     data: productList,
     isLoading: isProductListLoading,
     isError: isProductListError,
   } = useGetProducts({ params: randomParams });
 
-  useEffect(() => {
-    console.log(debounceSearchProduct);
-  }, [debounceSearchProduct]);
+  const {
+    data: productSearch,
+    isLoading: isProductSearchLoading,
+    isError: isProductSearchError,
+  } = useGetSearchProducts({ params: { searchQuery } });
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
@@ -58,21 +60,17 @@ const Search = () => {
           />
         </View>
         <View style={globalStyles.productListContainer}>
-          {isProductListLoading ? (
+          {isProductListLoading || isProductSearchLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
-          ) : isProductListError ? (
+          ) : isProductListError || isProductSearchError ? (
             <View style={errorStyles.container}>
               <Image source={require("@/assets/images/error-icon.png")} style={errorStyles.logo} />
               <Text style={errorStyles.text}>Error fetching data, please try again...</Text>
             </View>
-          ) : debounceSearchProduct === "" ? (
+          ) : searchQuery === "" ? (
             productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
           ) : (
-            productList!.data
-              .filter((product: ProductType) =>
-                product.description.toLowerCase().includes(debounceSearchProduct.toLowerCase())
-              )
-              .map((product: ProductType) => <CardProduct key={product.id} {...product} />)
+            productSearch!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
           )}
         </View>
       </ScrollView>

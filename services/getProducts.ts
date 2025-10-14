@@ -10,7 +10,7 @@ export type getProductsRequest = {
 export const getProducts = async ({ order, sortBy, page }: getProductsRequest): Promise<apiProductType> => {
   try {
     const { data } = await ProductsAPI.get(
-      `/products/?sortby=${sortBy || "expiredDate"}&order=${order || "asc"}&page=${page || 1}&limit=10`
+      `?sortby=${sortBy || "expiredDate"}&order=${order || "asc"}&page=${page || 1}&limit=10`
     );
     return data;
   } catch (error) {
