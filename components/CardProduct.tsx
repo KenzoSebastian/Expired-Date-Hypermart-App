@@ -4,7 +4,7 @@ import { type ProductType } from "@/lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text } from "react-native";
 
-const CardProduct = ({ description, quantity, skuNumber, expiredDate }: ProductType) => {
+export const CardProduct = ({ description, quantity, skuNumber, expiredDate }: ProductType) => {
   return (
     <View style={productListSectionStyles.cardProduct}>
       <View>
@@ -17,5 +17,3 @@ const CardProduct = ({ description, quantity, skuNumber, expiredDate }: ProductT
     </View>
   );
 };
-
-export default CardProduct;

@@ -27,6 +27,10 @@ export const globalStyles = StyleSheet.create({
   headingSection: {
     fontWeight: 800,
   },
+  productListContainer: {
+    gap: 10,
+    marginTop: 30,
+  },
 });
 
 export const navBarStyles = StyleSheet.create({

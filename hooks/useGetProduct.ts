@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 
 type useGetProductsParams = {
   queryConfig?: QueryConfig<typeof getProductsQueryOptions>;
-  params: getProductsQueryKeyProps;
+  params?: getProductsQueryKeyProps;
 };
 
-export const useGetProducts = ({ queryConfig, params }: useGetProductsParams) => {
+export const useGetProducts = ({ queryConfig, params }: useGetProductsParams = {}) => {
   return useQuery({
-    ...getProductsQueryOptions(params),
+    ...getProductsQueryOptions({ ...params }),
     ...queryConfig,
   });
 };

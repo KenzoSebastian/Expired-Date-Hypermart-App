@@ -1,10 +1,10 @@
 import { errorStyles } from "@/assets/styles/error.styles";
 import { globalStyles } from "@/assets/styles/global.styles";
 import { footerStyles, InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
-import CardProduct from "@/components/CardProduct";
+import { CardProduct } from "@/components/CardProduct";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
-import SkeletonCard from "@/components/SkeletonCard";
+import { SkeletonCard } from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
 import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
@@ -20,9 +20,8 @@ import Animated from "react-native-reanimated";
 
 const MainScreen = () => {
   const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">("expiredDate");
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const [page, setPage] = useState(1);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
 
   const { order, setOrder, setTextOrder, animatesStyle } = useAnimatedOrder();
 
@@ -49,7 +48,9 @@ const MainScreen = () => {
       <ScrollView
         contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => reFetchData({order, sortBy, page})} />}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={() => reFetchData({ order, sortBy, page })} />
+        }
       >
         {/* grid of categories */}
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>
@@ -134,7 +135,7 @@ const MainScreen = () => {
           </View>
         </View>
         {/* product list content */}
-        <View style={productListSectionStyles.productListContainer}>
+        <View style={globalStyles.productListContainer}>
           {isProductListLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError ? (

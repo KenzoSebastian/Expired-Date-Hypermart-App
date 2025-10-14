@@ -1,10 +1,10 @@
 import { type apiProductType, ProductsAPI } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
-type getProductsRequest = {
-  sortBy: "description" | "expiredDate" | "createdAt";
-  order: "asc" | "desc";
-  page: number;
+export type getProductsRequest = {
+  sortBy?: "description" | "expiredDate" | "createdAt";
+  order?: "asc" | "desc";
+  page?: number;
 };
 
 export const getProducts = async ({ order, sortBy, page }: getProductsRequest): Promise<apiProductType> => {
@@ -19,15 +19,14 @@ export const getProducts = async ({ order, sortBy, page }: getProductsRequest): 
   }
 };
 
-export type getProductsQueryKeyProps = getProductsRequest & { isRefreshing: boolean };
+export type getProductsQueryKeyProps = getProductsRequest & { isRefreshing?: boolean };
 
-export const getProductsQueryKey = ({ sortBy, order, page, isRefreshing }: getProductsQueryKeyProps) => [
-  "products",
-  sortBy,
-  order,
-  page,
-  isRefreshing,
-];
+export const getProductsQueryKey = ({
+  sortBy = "expiredDate",
+  order = "asc",
+  page = 1,
+  isRefreshing = false,
+}: getProductsQueryKeyProps) => ["products", sortBy, order, page, isRefreshing];
 
 export const getProductsQueryOptions = ({ sortBy, order, page, isRefreshing }: getProductsQueryKeyProps) => {
   return queryOptions({

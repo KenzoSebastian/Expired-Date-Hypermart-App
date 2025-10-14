@@ -80,10 +80,6 @@ export const productListSectionStyles = StyleSheet.create({
     marginVertical: -2,
     marginHorizontal: -12,
   },
-  productListContainer: {
-    gap: 10,
-    marginTop: 30,
-  },
   cardProduct: {
     width: "100%",
     flexDirection: "row",

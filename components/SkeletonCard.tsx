@@ -13,7 +13,7 @@ const skeletonProps = {
   highlight: COLORS.backgroundUtils,
 };
 
-const SkeletonCard = () => {
+export const SkeletonCard = () => {
   return (
     <View style={{ ...productListSectionStyles.cardProduct }}>
       <View style={{ flex: 1, gap: 5, height: "100%" }}>
@@ -62,4 +62,3 @@ const SkeletonCard = () => {
   );
 };
 
-export default SkeletonCard;
