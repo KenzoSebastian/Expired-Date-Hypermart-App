@@ -1,6 +1,6 @@
 import { getProductsRequest } from "@/services/getProducts";
 
-export const randomParams = ((): getProductsRequest => {
+export const randomParams = (): getProductsRequest => {
   const sortByOptions = ["description", "expiredDate", "createdAt"];
   const orderByOptions = ["asc", "desc"];
 
@@ -13,4 +13,4 @@ export const randomParams = ((): getProductsRequest => {
     order: randomOrder as getProductsRequest["order"],
     page: randomPage as getProductsRequest["page"],
   };
-})();
+};

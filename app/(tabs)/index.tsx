@@ -17,14 +17,17 @@ import { useState } from "react";
 import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import Animated from "react-native-reanimated";
+import { randomParams } from "@/utils/randomParams";
+
+const generateRandomParams = randomParams();
 
 const MainScreen = () => {
-  const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">("expiredDate");
+  const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">();
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+  const [generateRandomParamsState, setGenerateRandomParamsState] = useState(generateRandomParams);
 
   const { order, setOrder, setTextOrder, animatesStyle } = useAnimatedOrder();
-
   const {
     data: productCounts,
     isLoading: isProductCountsLoading,
@@ -36,10 +39,15 @@ const MainScreen = () => {
     isLoading: isProductListLoading,
     isError: isProductListError,
   } = useGetProducts({
-    params: { sortBy, order, page, isRefreshing },
+    params: !sortBy ? generateRandomParamsState : { sortBy, order, page, isRefreshing },
   });
 
-  const { mutate: reFetchData } = useGetReFetchData({ params: { sortBy, order, page, setIsRefreshing } });
+  const { mutate: reFetchData } = useGetReFetchData({
+    params: !sortBy
+      ? { ...generateRandomParamsState, setIsRefreshing }
+      : { sortBy, order, page, setIsRefreshing },
+    mutationConfig: { onSuccess: () => setGenerateRandomParamsState(randomParams()) },
+  });
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
@@ -49,7 +57,7 @@ const MainScreen = () => {
         contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={() => reFetchData({ order, sortBy, page })} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={() => reFetchData({ sortBy, order, page })} />
         }
       >
         {/* grid of categories */}
@@ -92,30 +100,34 @@ const MainScreen = () => {
         {/* product list heading */}
         <View style={productListSectionStyles.headingContainer}>
           <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>List of Products</Text>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 5, position: "relative" }}>
-            <Animated.Text style={[{ fontSize: 15, fontWeight: "semibold" }, animatesStyle]}>
-              {order}
-            </Animated.Text>
-            <TouchableOpacity
-              onPress={() => {
-                setOrder(order === "asc" ? "desc" : "asc");
-                setTextOrder(true);
-              }}
-              activeOpacity={0.6}
-              disabled={isProductListLoading}
-            >
-              {order === "asc" ? (
-                <Image
-                  source={require(`@/assets/images/asc.png`)}
-                  style={{ width: 30, height: 30, opacity: isProductListLoading ? 0.5 : 1 }}
-                />
-              ) : (
-                <Image
-                  source={require(`@/assets/images/desc.png`)}
-                  style={{ width: 30, height: 30, opacity: isProductListLoading ? 0.5 : 1 }}
-                />
-              )}
-            </TouchableOpacity>
+          <View style={{ ...productListSectionStyles.headingButtonFilter, position: "relative" }}>
+            {sortBy && (
+              <View style={productListSectionStyles.headingButtonFilter}>
+                <Animated.Text style={[{ fontSize: 15, fontWeight: "semibold" }, animatesStyle]}>
+                  {order}
+                </Animated.Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setOrder(order === "asc" ? "desc" : "asc");
+                    setTextOrder(true);
+                  }}
+                  activeOpacity={0.6}
+                  disabled={isProductListLoading}
+                >
+                  {order === "asc" ? (
+                    <Image
+                      source={require(`@/assets/images/asc.png`)}
+                      style={{ width: 30, height: 30, opacity: isProductListLoading ? 0.5 : 1 }}
+                    />
+                  ) : (
+                    <Image
+                      source={require(`@/assets/images/desc.png`)}
+                      style={{ width: 30, height: 30, opacity: isProductListLoading ? 0.5 : 1 }}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
 
             <SelectList
               setSelected={(val: "description" | "expiredDate" | "createdAt") => setSortBy(val)}
@@ -148,7 +160,7 @@ const MainScreen = () => {
           )}
         </View>
         {/* pagination */}
-        {!isProductListLoading && !isProductListError && (
+        {!isProductListLoading && !isProductListError && sortBy && (
           <View style={footerStyles.footerContainer}>
             <TouchableOpacity
               activeOpacity={0}

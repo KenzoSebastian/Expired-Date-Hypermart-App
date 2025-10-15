@@ -3,9 +3,9 @@ import { CategoryCountType, getCategoryCount } from "./getCategoryCount";
 import { getProducts } from "./getProducts";
 
 export type getRefetchDataRequest = {
-  order: "asc" | "desc";
-  sortBy: "description" | "expiredDate" | "createdAt";
-  page: number;
+  order?: "asc" | "desc";
+  sortBy?: "description" | "expiredDate" | "createdAt";
+  page?: number;
 };
 
 export const getRefetchData = async ({

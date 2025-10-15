@@ -14,6 +14,8 @@ import { Image } from "expo-image";
 import React, { useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 
+const generateRandomParams = randomParams();
+
 const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const searchQuery = useDebounce(searchValue, 500);
@@ -21,7 +23,7 @@ const Search = () => {
     data: productList,
     isLoading: isProductListLoading,
     isError: isProductListError,
-  } = useGetProducts({ params: randomParams });
+  } = useGetProducts({ params: generateRandomParams });
 
   const {
     data: productSearch,
@@ -69,6 +71,8 @@ const Search = () => {
             </View>
           ) : searchQuery === "" ? (
             productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
+          ) : productSearch!.data.length === 0 ? (
+            <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>No product found</Text>
           ) : (
             productSearch!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
           )}

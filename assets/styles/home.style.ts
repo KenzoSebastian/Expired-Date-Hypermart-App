@@ -97,6 +97,11 @@ export const productListSectionStyles = StyleSheet.create({
     maxWidth: 270,
     color: COLORS.secondary,
   },
+  headingButtonFilter: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
   subHeadingCardProduct: {
     fontSize: 12,
     fontWeight: "400",
