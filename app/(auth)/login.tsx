@@ -88,7 +88,7 @@ const LoginScreen = () => {
               <TextInput
                 style={{
                   borderWidth: Error !== "" ? 2 : 1,
-                  borderColor: Error !== "" ? "red" : COLORS.text,
+                  borderColor: Error !== "" ? COLORS.error : COLORS.text,
                   ...globalStyles.textField,
                 }}
                 placeholder="input username / store code..."
@@ -111,7 +111,7 @@ const LoginScreen = () => {
               <View
                 style={{
                   borderWidth: Error !== "" ? 2 : 1,
-                  borderColor: Error !== "" ? "red" : COLORS.text,
+                  borderColor: Error !== "" ? COLORS.error : COLORS.text,
                   ...globalStyles.wrapperInput,
                 }}
               >

@@ -4,15 +4,17 @@ import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { Slot } from "expo-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/query-client";
-
+import StoreCodeContextProvider from "@/context/StoreCode";
 
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ClerkProvider tokenCache={tokenCache}>
-        <SafeScreen>
-          <Slot />
-        </SafeScreen>
+        <StoreCodeContextProvider>
+          <SafeScreen>
+            <Slot />
+          </SafeScreen>
+        </StoreCodeContextProvider>
       </ClerkProvider>
     </QueryClientProvider>
   );

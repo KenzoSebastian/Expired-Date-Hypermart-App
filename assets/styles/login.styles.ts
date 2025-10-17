@@ -37,7 +37,7 @@ export const loginStyles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: "red",
+    color: COLORS.error,
     marginTop: 10,
     fontWeight: "bold",
     width: "80%",
