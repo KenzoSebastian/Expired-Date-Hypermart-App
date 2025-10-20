@@ -16,7 +16,7 @@ import { ScrollView, Text, TextInput, View } from "react-native";
 
 const generateRandomParams = randomParams();
 
-const Search = () => {
+const SearchScreen = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const searchQuery = useDebounce(searchValue, 500);
   const {
@@ -82,4 +82,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchScreen;
