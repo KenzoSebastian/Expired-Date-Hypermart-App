@@ -1,4 +1,4 @@
-import { productListSectionStyles } from "@/assets/styles/home.style";
+import { cardStyles } from "@/assets/styles/global.styles";
 import { skeletonStyles } from "@/assets/styles/skeleton.styles";
 import { COLORS } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,7 +15,7 @@ const skeletonProps = {
 
 export const SkeletonCard = () => {
   return (
-    <View style={{ ...productListSectionStyles.cardProduct }}>
+    <View style={{ ...cardStyles.container }}>
       <View style={{ flex: 1, gap: 5, height: "100%" }}>
         <SkeletonLoadingElement {...skeletonProps}>
           <View
@@ -61,4 +61,3 @@ export const SkeletonCard = () => {
     </View>
   );
 };
-

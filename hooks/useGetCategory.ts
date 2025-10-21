@@ -9,7 +9,11 @@ type useGetCategoryParams = {
 
 export const useGetCategory = ({ queryConfig, params }: useGetCategoryParams) => {
   return useQuery({
-    ...getCategoryQueryOptions({ category: params.category, isRefreshing: params.isRefreshing }),
+    ...getCategoryQueryOptions({
+      category: params.category,
+      page: params.page,
+      isRefreshing: params.isRefreshing,
+    }),
     ...queryConfig,
   });
 };

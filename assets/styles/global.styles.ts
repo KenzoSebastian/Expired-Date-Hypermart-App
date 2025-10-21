@@ -33,6 +33,37 @@ export const globalStyles = StyleSheet.create({
   },
 });
 
+export const errorStyles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  logo: { width: 150, height: 150, marginBottom: 20 },
+  text: { fontSize: 20, color: "red", fontWeight: "bold" },
+});
+
+export const cardStyles = StyleSheet.create({
+  container: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: COLORS.card,
+    borderRadius: 7,
+    boxShadow: "2px 4px 9px 0px rgba(0, 0, 0, 0.25)",
+  },
+  headingCardProduct: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 10,
+    maxWidth: 270,
+    color: COLORS.secondary,
+  },
+  subHeadingCardProduct: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: COLORS.subText,
+  },
+});
+
 export const navBarStyles = StyleSheet.create({
   navigationHeader: {
     flexDirection: "row",
@@ -56,5 +87,24 @@ export const navBarStyles = StyleSheet.create({
   textNav2: {
     color: COLORS.backgroundUtils,
     fontSize: 14,
+  },
+});
+
+export const footerStyles = StyleSheet.create({
+  footerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "flex-end",
+    alignItems: "center",
+    width: "40%",
+    marginTop: 20,
+  },
+  pageBox: {
+    width: 35,
+    height: 35,
+    borderRadius: 8,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

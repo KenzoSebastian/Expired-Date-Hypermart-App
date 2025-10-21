@@ -1,5 +1,4 @@
-import { errorStyles } from "@/assets/styles/error.styles";
-import { globalStyles } from "@/assets/styles/global.styles";
+import { globalStyles, errorStyles } from "@/assets/styles/global.styles";
 import { CardProduct } from "@/components/CardProduct";
 import { NavbarComponent } from "@/components/Navbar";
 import { SkeletonCard } from "@/components/SkeletonCard";

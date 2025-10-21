@@ -1,13 +1,14 @@
-import { type apiProductType, ProductsAPI } from "@/lib/api";
+import { type apiProductType, categoryStatusType, ProductsAPI } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
 type categoryProps = {
-  category: "expired" | "expiringSoon" | "expiringLater" | "goodProducts";
+  category: categoryStatusType;
+  page?: number;
 };
 
-export const getCategory = async ({ category }: categoryProps): Promise<apiProductType> => {
+export const getCategory = async ({ category, page }: categoryProps): Promise<apiProductType> => {
   try {
-    const { data } = await ProductsAPI.get(`/categories/${category}?page=1&limit=10`);
+    const { data } = await ProductsAPI.get(`/categories/${category}?page=${page || 1}&limit=10`);
     return data;
   } catch (error) {
     console.log("Error fetching category in getCategory function:", error);
@@ -17,15 +18,16 @@ export const getCategory = async ({ category }: categoryProps): Promise<apiProdu
 
 export type getCategoryQueryKeyProps = categoryProps & { isRefreshing: boolean };
 
-export const getCategoryQueryKey = ({ category, isRefreshing }: getCategoryQueryKeyProps) => [
+export const getCategoryQueryKey = ({ category, page, isRefreshing }: getCategoryQueryKeyProps) => [
   "category",
   category,
+  page,
   isRefreshing,
 ];
 
-export const getCategoryQueryOptions = ({ category, isRefreshing }: getCategoryQueryKeyProps) => {
+export const getCategoryQueryOptions = ({ category, page, isRefreshing }: getCategoryQueryKeyProps) => {
   return queryOptions({
-    queryKey: getCategoryQueryKey({ category, isRefreshing }),
-    queryFn: () => getCategory({ category }),
+    queryKey: getCategoryQueryKey({ category, page, isRefreshing }),
+    queryFn: () => getCategory({ category, page }),
   });
 };

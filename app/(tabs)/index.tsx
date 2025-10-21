@@ -1,9 +1,9 @@
-import { errorStyles } from "@/assets/styles/error.styles";
-import { globalStyles } from "@/assets/styles/global.styles";
-import { footerStyles, InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
+import { globalStyles, errorStyles } from "@/assets/styles/global.styles";
+import { InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
 import { CardProduct } from "@/components/CardProduct";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
+import { Paginate } from "@/components/Paginate";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
@@ -11,17 +11,19 @@ import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
 import { useGetProducts } from "@/hooks/useGetProduct";
 import { useGetReFetchData } from "@/hooks/useGetReFetchData";
 import { type ProductType } from "@/lib/api";
+import { randomParams } from "@/utils/randomParams";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import Animated from "react-native-reanimated";
-import { randomParams } from "@/utils/randomParams";
 
 const generateRandomParams = randomParams();
 
 const MainScreen = () => {
+  const router = useRouter();
   const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">();
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -69,7 +71,7 @@ const MainScreen = () => {
             heading="Expired"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.expired}
             period="<0"
-            onPress={() => console.log("Category 1 Pressed")}
+            onPress={() => router.push("/category/:expired")}
           />
           <ItemInventoryGrid
             backgroundColor="#E7362D"
@@ -77,7 +79,7 @@ const MainScreen = () => {
             heading="Expiring Soon"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.expiringSoon}
             period="<7"
-            onPress={() => console.log("Category 2 Pressed")}
+            onPress={() => router.push("/category/:expiringSoon")}
           />
           <ItemInventoryGrid
             backgroundColor="#F78910"
@@ -85,7 +87,7 @@ const MainScreen = () => {
             heading="Expiring Later"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.expiringLater}
             period="<7-14"
-            onPress={() => console.log("Category 3 Pressed")}
+            onPress={() => router.push("/category/:expiringLater")}
           />
           <ItemInventoryGrid
             backgroundColor="#02B656"
@@ -93,7 +95,7 @@ const MainScreen = () => {
             heading="Good Products"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.goodProducts}
             period=">14"
-            onPress={() => console.log("Category 4 Pressed")}
+            onPress={() => router.push("/category/:goodProducts")}
           />
         </View>
         {/* list of products */}
@@ -160,50 +162,13 @@ const MainScreen = () => {
           )}
         </View>
         {/* pagination */}
-        {!isProductListLoading && !isProductListError && sortBy && (
-          <View style={footerStyles.footerContainer}>
-            <TouchableOpacity
-              activeOpacity={0}
-              disabled={productList!.meta.hasPrevPage === false}
-              style={{
-                ...footerStyles.pageBox,
-                backgroundColor:
-                  productList!.meta.hasPrevPage === false ? COLORS.disableButton : COLORS.backgroundUtils,
-                borderColor: productList!.meta.hasPrevPage === false ? "gray" : COLORS.border,
-              }}
-              onPress={() => setPage(productList!.meta.page - 1)}
-            >
-              <Ionicons
-                name="chevron-back"
-                size={20}
-                style={{ opacity: productList!.meta.hasPrevPage === false ? 0.5 : 1 }}
-              />
-            </TouchableOpacity>
-
-            <View>
-              <Text>
-                {productList!.meta.page} / {productList!.meta.totalPages}
-              </Text>
-            </View>
-
-            <TouchableOpacity
-              activeOpacity={0}
-              disabled={productList!.meta.hasNextPage === false}
-              style={{
-                ...footerStyles.pageBox,
-                backgroundColor:
-                  productList!.meta.hasNextPage === false ? COLORS.disableButton : COLORS.backgroundUtils,
-                borderColor: productList!.meta.hasNextPage === false ? "gray" : COLORS.border,
-              }}
-              onPress={() => setPage(productList!.meta.page + 1)}
-            >
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                style={{ opacity: productList!.meta.hasNextPage === false ? 0.5 : 1 }}
-              />
-            </TouchableOpacity>
-          </View>
+        {!isProductListLoading && !isProductListError && productList!.data.length > 0 && sortBy && (
+          <Paginate
+            page={productList!.meta.page}
+            setPage={setPage}
+            totalPages={productList!.meta.totalPages}
+            productList={productList!}
+          />
         )}
       </ScrollView>
     </View>

@@ -33,3 +33,5 @@ export type apiProductType = {
   data: ProductType[];
   meta: MetaType;
 };
+
+export type categoryStatusType = "expired" | "expiringSoon" | "expiringLater" | "goodProducts";

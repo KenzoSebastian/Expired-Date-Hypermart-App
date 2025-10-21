@@ -4,7 +4,7 @@ import { NavbarComponent } from "@/components/Navbar";
 import { COLORS } from "@/constants/Colors";
 import { StoreCode } from "@/context/StoreCode";
 import { formatDate } from "@/utils/dateFormatter";
-import { useAuth, useSession, useUser } from "@clerk/clerk-expo";
+import { useAuth, useSession } from "@clerk/clerk-expo";
 import { Image } from "expo-image";
 import React, { useContext } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
