@@ -1,6 +1,7 @@
-import { globalStyles, errorStyles } from "@/assets/styles/global.styles";
+import { globalStyles } from "@/assets/styles/global.styles";
 import { InventorySectionStyles, productListSectionStyles } from "@/assets/styles/home.style";
 import { CardProduct } from "@/components/CardProduct";
+import { ErrorView } from "@/components/ErrorView";
 import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
 import { Paginate } from "@/components/Paginate";
@@ -8,7 +9,7 @@ import { SkeletonCard } from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
 import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
-import { useGetProducts } from "@/hooks/useGetProduct";
+import { useGetProducts } from "@/hooks/useGetProducts";
 import { useGetReFetchData } from "@/hooks/useGetReFetchData";
 import { type ProductType } from "@/lib/api";
 import { randomParams } from "@/utils/randomParams";
@@ -153,12 +154,15 @@ const MainScreen = () => {
           {isProductListLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError ? (
-            <View style={errorStyles.container}>
-              <Image source={require("@/assets/images/error-icon.png")} style={errorStyles.logo} />
-              <Text style={errorStyles.text}>Error fetching data, please try again...</Text>
-            </View>
+            <ErrorView />
           ) : (
-            productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
+            productList!.data.map((product: ProductType) => (
+              <CardProduct
+                key={product.id}
+                {...product}
+                fnOnPress={() => router.push(`/detail/:${product.id}`)}
+              />
+            ))
           )}
         </View>
         {/* pagination */}

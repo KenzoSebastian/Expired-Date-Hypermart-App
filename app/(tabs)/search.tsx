@@ -1,21 +1,23 @@
-import { globalStyles, errorStyles } from "@/assets/styles/global.styles";
+import { globalStyles } from "@/assets/styles/global.styles";
 import { CardProduct } from "@/components/CardProduct";
+import { ErrorView } from "@/components/ErrorView";
 import { NavbarComponent } from "@/components/Navbar";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
-import { useGetProducts } from "@/hooks/useGetProduct";
+import { useGetProducts } from "@/hooks/useGetProducts";
 import { useGetSearchProducts } from "@/hooks/useGetSearchProducts";
 import { ProductType } from "@/lib/api";
 import { randomParams } from "@/utils/randomParams";
 import { Ionicons } from "@expo/vector-icons";
 import { useDebounce } from "@uidotdev/usehooks";
-import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 
 const generateRandomParams = randomParams();
 
 const SearchScreen = () => {
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>("");
   const searchQuery = useDebounce(searchValue, 500);
   const {
@@ -64,16 +66,25 @@ const SearchScreen = () => {
           {isProductListLoading || isProductSearchLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError || isProductSearchError ? (
-            <View style={errorStyles.container}>
-              <Image source={require("@/assets/images/error-icon.png")} style={errorStyles.logo} />
-              <Text style={errorStyles.text}>Error fetching data, please try again...</Text>
-            </View>
+            <ErrorView />
           ) : searchQuery === "" ? (
-            productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
+            productList!.data.map((product: ProductType) => (
+              <CardProduct
+                key={product.id}
+                {...product}
+                fnOnPress={() => router.push(`/detail/:${product.id}`)}
+              />
+            ))
           ) : productSearch!.data.length === 0 ? (
             <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>No product found</Text>
           ) : (
-            productSearch!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
+            productSearch!.data.map((product: ProductType) => (
+              <CardProduct
+                key={product.id}
+                {...product}
+                fnOnPress={() => router.push(`/detail/:${product.id}`)}
+              />
+            ))
           )}
         </View>
       </ScrollView>

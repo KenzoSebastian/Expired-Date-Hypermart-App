@@ -108,3 +108,8 @@ export const footerStyles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+export const skeletonProps = {
+  background: COLORS.skeleton,
+  highlight: COLORS.backgroundUtils,
+};

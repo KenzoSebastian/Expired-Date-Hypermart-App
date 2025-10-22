@@ -1,58 +1,75 @@
 import { cardStyles, skeletonProps } from "@/assets/styles/global.styles";
 import { skeletonStyles } from "@/assets/styles/skeleton.styles";
-import { COLORS } from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
 import SkeletonLoading from "expo-skeleton-loading";
 import React, { ElementType } from "react";
 import { View } from "react-native";
 
 const SkeletonLoadingElement: ElementType<typeof SkeletonLoading> | any = SkeletonLoading;
 
-export const SkeletonCard = () => {
+export const SkeletonDetail = () => {
   return (
-    <View style={{ ...cardStyles.container }}>
-      <View style={{ flex: 1, gap: 5, height: "100%" }}>
+    <View style={{ width: "100%" }}>
+      <View
+        style={{ ...cardStyles.container, justifyContent: "center", paddingVertical: 40, marginBottom: 40 }}
+      >
         <SkeletonLoadingElement {...skeletonProps}>
           <View
             style={{
-              width: 175,
-              height: 15,
-              marginBottom: 15,
-              ...skeletonStyles.dummyContent,
-            }}
-          />
-        </SkeletonLoadingElement>
-        <SkeletonLoadingElement {...skeletonProps}>
-          <View
-            style={{
-              width: 75,
-              height: 8,
-              ...skeletonStyles.dummyContent,
-            }}
-          />
-        </SkeletonLoadingElement>
-        <SkeletonLoadingElement {...skeletonProps}>
-          <View
-            style={{
-              width: 105,
-              height: 8,
-              ...skeletonStyles.dummyContent,
-            }}
-          />
-        </SkeletonLoadingElement>
-        <SkeletonLoadingElement {...skeletonProps}>
-          <View
-            style={{
-              width: 140,
-              height: 8,
+              height: 200,
+              width: 200,
               ...skeletonStyles.dummyContent,
             }}
           />
         </SkeletonLoadingElement>
       </View>
-      <SkeletonLoadingElement {...skeletonProps}>
-        <Ionicons name="chevron-forward" size={40} color={COLORS.secondary} />
-      </SkeletonLoadingElement>
+
+      <View style={{ gap: 15 }}>
+        <SkeletonLoadingElement {...skeletonProps}>
+          <View
+            style={{
+              width: 330,
+              height: 50,
+              ...skeletonStyles.dummyContent,
+            }}
+          />
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
+          <View
+            style={{
+              width: 230,
+              height: 30,
+              ...skeletonStyles.dummyContent,
+            }}
+          />
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
+          <View
+            style={{
+              width: 150,
+              height: 20,
+              ...skeletonStyles.dummyContent,
+            }}
+          />
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
+          <View
+            style={{
+              width: 170,
+              height: 20,
+              ...skeletonStyles.dummyContent,
+            }}
+          />
+        </SkeletonLoadingElement>
+        <SkeletonLoadingElement {...skeletonProps}>
+          <View
+            style={{
+              width: 200,
+              height: 20,
+              ...skeletonStyles.dummyContent,
+            }}
+          />
+        </SkeletonLoadingElement>
+      </View>
     </View>
   );
 };

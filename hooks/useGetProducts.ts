@@ -9,7 +9,7 @@ type useGetProductsParams = {
 
 export const useGetProducts = ({ queryConfig, params }: useGetProductsParams = {}) => {
   return useQuery({
-    ...getProductsQueryOptions({ ...params }),
+    ...getProductsQueryOptions({...params}),
     ...queryConfig,
   });
 };

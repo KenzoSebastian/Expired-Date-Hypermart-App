@@ -85,7 +85,7 @@ const CategoryScreen = () => {
               <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>No products found...</Text>
             </View>
           ) : (
-            productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} />)
+            productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} fnOnPress={() => router.push(`/detail/:${product.id}`)} />)
           )}
         </View>
         {/* pagination */}
