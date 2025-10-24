@@ -33,7 +33,7 @@ const SearchScreen = () => {
   } = useGetSearchProducts({ params: { searchQuery } });
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
+    <View style={globalStyles.container}>
       {/* navigation bar */}
       <NavbarComponent />
       <ScrollView
@@ -66,7 +66,7 @@ const SearchScreen = () => {
           {isProductListLoading || isProductSearchLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError || isProductSearchError ? (
-            <ErrorView />
+            <ErrorView message="Failed to fetch products"/>
           ) : searchQuery === "" ? (
             productList!.data.map((product: ProductType) => (
               <CardProduct

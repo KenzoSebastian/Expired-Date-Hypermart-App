@@ -1,10 +1,10 @@
 import { SafeScreen } from "@/components/SafeScreen";
+import StoreCodeContextProvider from "@/context/StoreCode";
+import { queryClient } from "@/lib/query-client";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
-import { Slot } from "expo-router";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "@/lib/query-client";
-import StoreCodeContextProvider from "@/context/StoreCode";
+import { Slot } from "expo-router";
 
 export default function RootLayout() {
   return (

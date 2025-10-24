@@ -6,7 +6,6 @@ import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
 import { Paginate } from "@/components/Paginate";
 import { SkeletonCard } from "@/components/SkeletonCard";
-import { COLORS } from "@/constants/Colors";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
 import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
 import { useGetProducts } from "@/hooks/useGetProducts";
@@ -53,7 +52,7 @@ const MainScreen = () => {
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
+    <View style={globalStyles.container}>
       {/* navigation bar */}
       <NavbarComponent />
       <ScrollView
@@ -154,7 +153,7 @@ const MainScreen = () => {
           {isProductListLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError ? (
-            <ErrorView />
+            <ErrorView message="Failed to fetch products" />
           ) : (
             productList!.data.map((product: ProductType) => (
               <CardProduct

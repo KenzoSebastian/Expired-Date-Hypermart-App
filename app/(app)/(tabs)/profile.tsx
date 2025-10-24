@@ -25,7 +25,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
+    <View style={globalStyles.container}>
       {/* navigation bar */}
       <NavbarComponent />
       <ScrollView

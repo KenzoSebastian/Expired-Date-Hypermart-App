@@ -20,6 +20,7 @@ const TabsLayout = () => {
         tabBarLabelStyle: tabBarStyle.label,
         animation: "shift",
       }}
+      
     >
       <Tabs.Screen
         name="index"

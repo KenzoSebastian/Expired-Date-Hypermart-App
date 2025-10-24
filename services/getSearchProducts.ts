@@ -1,6 +1,5 @@
 import { ProductsAPI } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
-import axios from "axios";
 
 export const getSearchProducts = async (searchQuery: string) => {
   try {

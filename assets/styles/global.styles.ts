@@ -2,6 +2,10 @@ import { COLORS } from "@/constants/Colors";
 import { StyleSheet } from "react-native";
 
 export const globalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.backgroundApps,
+  },
   textField: {
     borderRadius: 10,
     padding: 10,
@@ -34,9 +38,22 @@ export const globalStyles = StyleSheet.create({
 });
 
 export const errorStyles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  logo: { width: 150, height: 150, marginBottom: 20 },
-  text: { fontSize: 20, color: "red", fontWeight: "bold" },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: { 
+    width: 150, 
+    height: 150, 
+    marginBottom: 20 
+  },
+  text: { 
+    fontSize: 20, 
+    color: "red", 
+    fontWeight: "bold", 
+    maxWidth: 300,
+  },
 });
 
 export const cardStyles = StyleSheet.create({
