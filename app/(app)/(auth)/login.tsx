@@ -4,7 +4,6 @@ import { COLORS } from "@/constants/Colors";
 import { useSignIn } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "expo-image";
-import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
@@ -19,7 +18,6 @@ import {
 } from "react-native";
 
 const LoginScreen = () => {
-  const router = useRouter();
   const { signIn, setActive, isLoaded } = useSignIn();
   const [Error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -46,7 +44,6 @@ const LoginScreen = () => {
 
       if (signInAttempt.status === "complete") {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.replace("/");
       } else {
         Alert.alert("Error", "Sign in failed. Please try again.");
         console.error(JSON.stringify(signInAttempt, null, 2));

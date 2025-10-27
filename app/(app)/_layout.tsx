@@ -7,7 +7,7 @@ import { Image, Text, View } from "react-native";
 export default function AppLayout() {
   const { isSignedIn } = useAuth();
   const [textLoading, setTextLoading] = useState("Loading");
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTextLoading((prev) => (prev.length >= 10 ? "Loading" : prev + "."));
@@ -24,12 +24,5 @@ export default function AppLayout() {
     );
   }
 
-  return (
-    <Stack screenOptions={{ headerShown: false }} initialRouteName={isSignedIn ? "(tabs)" : "(auth)"}>
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="category/[params]" />
-      <Stack.Screen name="detail/[id]" />
-    </Stack>
-  );
+  return <Stack screenOptions={{ headerShown: false }} initialRouteName={isSignedIn ? "(tabs)" : "(auth)"} />;
 }

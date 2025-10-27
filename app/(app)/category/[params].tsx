@@ -89,7 +89,7 @@ const CategoryScreen = () => {
           )}
         </View>
         {/* pagination */}
-        {!isProductListLoading && !isProductListError && productList!.data.length > 0 && (
+        {!isProductListLoading && !isProductListError && productList!.data.length > 0 && productList!.meta.totalPages > 1 && (
           <Paginate
             page={productList!.meta.page}
             setPage={setPage}

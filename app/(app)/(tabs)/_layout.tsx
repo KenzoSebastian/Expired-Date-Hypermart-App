@@ -9,7 +9,7 @@ const TabsLayout = () => {
   const { isSignedIn } = useAuth();
 
   if (!isSignedIn) return <Redirect href="/login" />;
-
+  
   return (
     <Tabs
       screenOptions={{
@@ -20,7 +20,6 @@ const TabsLayout = () => {
         tabBarLabelStyle: tabBarStyle.label,
         animation: "shift",
       }}
-      
     >
       <Tabs.Screen
         name="index"
