@@ -1,9 +1,9 @@
-import { ProductsAPI } from "@/lib/api";
+import { axiosInstance } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
 export const getSearchProducts = async (searchQuery: string) => {
   try {
-    const { data } = await ProductsAPI.get(`/search/?searchQuery=${searchQuery}`);
+    const { data } = await axiosInstance.get(`/products/search/?searchQuery=${searchQuery}`);
     return data;
   } catch (error) {
     console.log("Error searching products in getSearchProducts function:", error);

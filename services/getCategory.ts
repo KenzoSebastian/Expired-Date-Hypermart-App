@@ -1,4 +1,4 @@
-import { type apiProductType, categoryStatusType, ProductsAPI } from "@/lib/api";
+import { type apiProductType, categoryStatusType, axiosInstance } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
 type categoryProps = {
@@ -8,7 +8,7 @@ type categoryProps = {
 
 export const getCategory = async ({ category, page }: categoryProps): Promise<apiProductType> => {
   try {
-    const { data } = await ProductsAPI.get(`/categories/${category}?page=${page || 1}&limit=10`);
+    const { data } = await axiosInstance.get(`/products/categories/${category}?page=${page || 1}&limit=10`);
     return data;
   } catch (error) {
     console.log("Error fetching category in getCategory function:", error);

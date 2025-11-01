@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const ProductsAPI = axios.create({
-  baseURL: "https://api-expired-date-hypermart-app-1cq4.vercel.app/api/products",
+export const axiosInstance = axios.create({
+  baseURL: "https://api-expired-date-hypermart-app-1cq4.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,16 +27,31 @@ export type MetaType = {
   hasPrevPage: boolean;
 };
 
+export type UserType = {
+  id: number;
+  username: string;
+  expoPushToken: `ExponentPushToken[${string}]`;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type categoryStatusType = "expired" | "expiringSoon" | "expiringLater" | "goodProducts";
+
 export type apiProductType = {
   status: "success" | "error";
   message: string;
   data: ProductType[];
   meta: MetaType;
 };
+
 export type apiSingleProductType = {
   status: "success" | "error";
   message: string;
   data: ProductType;
 };
 
-export type categoryStatusType = "expired" | "expiringSoon" | "expiringLater" | "goodProducts";
+export type apiUsersType = {
+  status: "success" | "error";
+  message: string;
+  data: UserType[];
+};

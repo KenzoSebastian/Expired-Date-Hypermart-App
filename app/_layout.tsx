@@ -1,3 +1,4 @@
+import { PushNotificationManager } from "@/components/PushNotificationManager";
 import { SafeScreen } from "@/components/SafeScreen";
 import StoreCodeContextProvider from "@/context/StoreCode";
 import { queryClient } from "@/lib/query-client";
@@ -11,9 +12,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <ClerkProvider tokenCache={tokenCache}>
         <StoreCodeContextProvider>
-          <SafeScreen>
-            <Slot />
-          </SafeScreen>
+          <PushNotificationManager>
+            <SafeScreen>
+              <Slot />
+            </SafeScreen>
+          </PushNotificationManager>
         </StoreCodeContextProvider>
       </ClerkProvider>
     </QueryClientProvider>

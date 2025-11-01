@@ -1,4 +1,4 @@
-import { type apiSingleProductType, ProductsAPI } from "@/lib/api";
+import { type apiSingleProductType, axiosInstance } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
 export type getProductsByIdRequest = {
@@ -7,7 +7,7 @@ export type getProductsByIdRequest = {
 
 export const getProductsById = async ({ id }: getProductsByIdRequest): Promise<apiSingleProductType> => {
   try {
-    const { data } = await ProductsAPI.get(`/searchId/${id}`);
+    const { data } = await axiosInstance.get(`/products/searchId/${id}`);
     return data;
   } catch (error) {
     console.log("Error fetching products in getProductsById function:", error);
