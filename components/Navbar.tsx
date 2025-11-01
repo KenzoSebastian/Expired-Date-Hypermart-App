@@ -1,15 +1,13 @@
 import { navBarStyles } from "@/assets/styles/global.styles";
 import { COLORS } from "@/constants/Colors";
-import { StoreCode } from "@/context/StoreCode";
-import { useUser } from "@clerk/clerk-expo";
+import { UserContext } from "@/context/UserContext";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { Image } from "expo-image";
 import { useContext } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export const NavbarComponent = () => {
-  const storeCodeContext = useContext(StoreCode);
-  const { user } = useUser();
+  const globalUser = useContext(UserContext);
 
   return (
     <View style={navBarStyles.navigationHeader}>
@@ -19,8 +17,8 @@ export const NavbarComponent = () => {
         contentFit="contain"
       />
       <View>
-        <Text style={navBarStyles.textNav1}>HPM - {storeCodeContext?.storeCode}</Text>
-        <Text style={navBarStyles.textNav2}>{user ? `@${user.username}` : "unknown"}</Text>
+        <Text style={navBarStyles.textNav1}>HPM - {globalUser?.user?.storeCode || ""}</Text>
+        <Text style={navBarStyles.textNav2}>{`@${globalUser?.user?.username || "unknown"}`}</Text>
       </View>
       <TouchableOpacity
         onPress={() => console.log("Notification icon pressed")}

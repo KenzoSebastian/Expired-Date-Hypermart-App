@@ -1,17 +1,29 @@
 import { type apiUsersType } from "@/lib/api";
-import { addUser, addUserRequest } from "./addUser";
+import { addUser, type addUserRequest } from "./addUser";
 import { getUserById } from "./getUserById";
 import { updateExpoTokenUser } from "./updateExpoTokenUser";
 
 export const checkUserToken = async ({
-  userId,
+  id: userId,
   username,
+  email,
+  memberSince,
+  storeCode,
+  imageUrl,
   expoPushToken,
 }: addUserRequest): Promise<apiUsersType> => {
   try {
     const fetchUserLoginFromServer = await getUserById({ id: userId });
     if (fetchUserLoginFromServer.data.length === 0) {
-      const addUserInServer = await addUser({ userId, username, expoPushToken });
+      const addUserInServer = await addUser({
+        id: userId,
+        username,
+        email,
+        memberSince,
+        storeCode,
+        imageUrl,
+        expoPushToken,
+      });
       return addUserInServer;
     }
     if (fetchUserLoginFromServer.data[0].expoPushToken !== expoPushToken) {

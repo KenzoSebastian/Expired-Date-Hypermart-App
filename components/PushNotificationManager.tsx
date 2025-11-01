@@ -1,9 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { UserContext, UserContextType } from "@/context/UserContext";
 import { checkUserToken } from "@/services/checkUserToken";
+import { formatDate } from "@/utils/dateFormatter";
 import { getPushTokenNotification } from "@/utils/getPushTokenNotification";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+import { numberSplit } from "@/utils/numberSplit";
+import { useAuth, useSession } from "@clerk/clerk-expo";
 import { useMutation } from "@tanstack/react-query";
 import * as Notifications from "expo-notifications";
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useContext, useEffect } from "react";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -15,25 +19,31 @@ Notifications.setNotificationHandler({
 });
 
 export const PushNotificationManager: React.FC<PropsWithChildren<object>> = ({ children }) => {
+  const globalUser = useContext<UserContextType | null>(UserContext);
   const { isSignedIn, userId } = useAuth();
-  const { user } = useUser();
+  const { session } = useSession();
 
   const { mutateAsync: checkUserTokenMutation } = useMutation({
     mutationFn: checkUserToken,
   });
 
   useEffect(() => {
-    if (!isSignedIn || !userId || !user) return;
+    if (!isSignedIn || !userId || !session) return;
 
     // Get push token
     getPushTokenNotification().then(async (tokenNotif) => {
       const checkUserTokenResult = await checkUserTokenMutation({
-        userId,
-        username: user.username!,
-        expoPushToken: tokenNotif!,
+        id: session.user.id,
+        username: session.user.username!,
+        email: session.user.emailAddresses[0]?.emailAddress!,
+        memberSince: formatDate(session.user.createdAt),
+        storeCode: Number(numberSplit(session.user.emailAddresses[0].emailAddress)),
+        imageUrl: session.user.imageUrl,
+        expoPushToken: tokenNotif! as `ExponentPushToken[${string}]`,
       });
 
-      console.log("checkUserTokenResult", checkUserTokenResult);
+      globalUser?.setUser(checkUserTokenResult.data[0]);
+      console.log(2322);
     });
 
     // Notification received listener
@@ -52,7 +62,7 @@ export const PushNotificationManager: React.FC<PropsWithChildren<object>> = ({ c
       receivedSubscription.remove();
       responseSubscription.remove();
     };
-  }, [isSignedIn, userId, user]);
+  }, [isSignedIn, userId, session]);
 
   return <>{children}</>;
 };

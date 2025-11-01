@@ -28,8 +28,12 @@ export type MetaType = {
 };
 
 export type UserType = {
-  id: number;
+  id: string;
   username: string;
+  email: string;
+  memberSince: string;
+  storeCode: number;
+  imageUrl: string;
   expoPushToken: `ExponentPushToken[${string}]`;
   createdAt: string;
   updatedAt: string;

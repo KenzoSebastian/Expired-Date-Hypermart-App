@@ -2,19 +2,18 @@ import { globalStyles } from "@/assets/styles/global.styles";
 import { profileStyles } from "@/assets/styles/profile.style";
 import { NavbarComponent } from "@/components/Navbar";
 import { COLORS } from "@/constants/Colors";
-import { StoreCode } from "@/context/StoreCode";
+import { UserContext } from "@/context/UserContext";
 import { formatDate } from "@/utils/dateFormatter";
-import { useAuth, useSession } from "@clerk/clerk-expo";
+import { useAuth } from "@clerk/clerk-expo";
 import { Image } from "expo-image";
 import React, { useContext } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 const ProfileScreen = () => {
-  const storeCodeContext = useContext(StoreCode);
-  const { session } = useSession();
+  const globalUser = useContext(UserContext);
   const { signOut } = useAuth();
 
-  if (!session) return null;
+  if (!globalUser) return null;
 
   const handleLogout = async () => {
     try {
@@ -34,17 +33,17 @@ const ProfileScreen = () => {
       >
         {/* profile content */}
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>Profile</Text>
-        <Image source={session?.user.imageUrl} style={profileStyles.avatar} />
+        <Image source={globalUser.user?.imageUrl} style={profileStyles.avatar} />
         <Text style={{ ...globalStyles.headingSection, fontSize: 24 }}>
-          HPM - {storeCodeContext?.storeCode}
+          HPM - {globalUser.user?.storeCode}
         </Text>
-        <Text style={profileStyles.userNameText}>@{session.user.username}</Text>
+        <Text style={profileStyles.userNameText}>@{globalUser.user?.username}</Text>
         <View style={profileStyles.profileBox}>
           <Text style={{ ...globalStyles.headingSection, fontSize: 22 }}>Account Information</Text>
           <View style={profileStyles.dividerLine} />
-          <Text>Name: {session.user.username}</Text>
-          <Text>Email: {session.user.emailAddresses[0].emailAddress}</Text>
-          <Text>Member Since: {formatDate(session.user.createdAt)}</Text>
+          <Text>Name: {globalUser.user?.username}</Text>
+          <Text>Email: {globalUser.user?.email}</Text>
+          <Text>Member Since: {formatDate(new Date(globalUser.user?.memberSince as string))}</Text>
         </View>
         <TouchableOpacity activeOpacity={0.7} style={profileStyles.logout} onPress={handleLogout}>
           <Text style={{ ...globalStyles.headingSection, fontSize: 22, color: COLORS.backgroundUtils }}>

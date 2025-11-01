@@ -1,14 +1,26 @@
-import { type apiUsersType, axiosInstance } from "@/lib/api";
+import { type apiUsersType, axiosInstance, UserType } from "@/lib/api";
 
-export type addUserRequest = {
-  userId: string;
-  username: string;
-  expoPushToken: string;
-};
+export type addUserRequest = Omit<UserType, "createdAt" | "updatedAt">;
 
-export const addUser = async ({ userId, username, expoPushToken }: addUserRequest): Promise<apiUsersType> => {
+export const addUser = async ({
+  id: userId,
+  username,
+  email,
+  memberSince,
+  storeCode,
+  imageUrl,
+  expoPushToken,
+}: addUserRequest): Promise<apiUsersType> => {
   try {
-    const { data } = await axiosInstance.post("/users/add", { userId, username, expoPushToken });
+    const { data } = await axiosInstance.post("/users/add", {
+      userId,
+      email,
+      memberSince,
+      storeCode,
+      username,
+      imageUrl,
+      expoPushToken,
+    });
     return data;
   } catch (error) {
     console.log("Error adding user in addUser function:", error);
