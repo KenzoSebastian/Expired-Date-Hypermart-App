@@ -1,4 +1,4 @@
-import { type apiUsersType, axiosInstance, UserType } from "@/lib/api";
+import { type apiUsersType, axiosInstance, type UserType } from "@/lib/api";
 
 export type addUserRequest = Omit<UserType, "createdAt" | "updatedAt">;
 

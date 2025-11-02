@@ -1,5 +1,5 @@
 import { MutationConfig } from "@/lib/query-client";
-import { getRefetchData, type getRefetchDataRequest } from "@/services/getRefetchData";
+import { getRefetchData, type getRefetchDataRequest } from "@/utils/getRefetchData";
 import { useMutation } from "@tanstack/react-query";
 import { SetStateAction } from "react";
 

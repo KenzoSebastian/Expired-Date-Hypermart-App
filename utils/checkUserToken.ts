@@ -1,7 +1,7 @@
 import { type apiUsersType } from "@/lib/api";
-import { addUser, type addUserRequest } from "./addUser";
-import { getUserById } from "./getUserById";
-import { updateExpoTokenUser } from "./updateExpoTokenUser";
+import { addUser, type addUserRequest } from "../services/addUser";
+import { getUserById } from "../services/getUserById";
+import { updateExpoTokenUser } from "../services/updateExpoTokenUser";
 
 export const checkUserToken = async ({
   id: userId,

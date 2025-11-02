@@ -1,5 +1,5 @@
 import { QueryConfig } from "@/lib/query-client";
-import { getCategoryCountQueryOptions } from "@/services/getCategoryCount";
+import { getCategoryCountQueryOptions } from "@/utils/getCategoryCount";
 import { useQuery } from "@tanstack/react-query";
 
 type useGetCategoryCountParams = {

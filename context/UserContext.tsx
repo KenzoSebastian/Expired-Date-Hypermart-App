@@ -6,13 +6,11 @@ export type UserContextType = {
   setUser: Dispatch<SetStateAction<UserType | undefined>>;
 };
 
-export const UserContext = createContext<UserContextType | null>(null);
+export const UserContext = createContext<UserContextType>({ user: undefined, setUser: () => {} });
 
 const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType>();
-  return (
-    <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 
 export default UserContextProvider;

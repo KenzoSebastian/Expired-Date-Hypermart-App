@@ -1,6 +1,6 @@
-import { apiProductType } from "@/lib/api";
-import { CategoryCountType, getCategoryCount } from "./getCategoryCount";
-import { getProducts } from "./getProducts";
+import { type apiProductType } from "@/lib/api";
+import { type CategoryCountType, getCategoryCount } from "./getCategoryCount";
+import { getProducts } from "../services/getProducts";
 
 export type getRefetchDataRequest = {
   order?: "asc" | "desc";

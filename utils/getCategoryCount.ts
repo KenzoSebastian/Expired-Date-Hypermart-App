@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getCategory } from "./getCategory";
+import { getCategory } from "../services/getCategory";
 
 export type CategoryCountType = {
   expired: number;

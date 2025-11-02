@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { UserContext, UserContextType } from "@/context/UserContext";
-import { checkUserToken } from "@/services/checkUserToken";
+import { checkUserToken } from "@/utils/checkUserToken";
 import { formatDate } from "@/utils/dateFormatter";
 import { getPushTokenNotification } from "@/utils/getPushTokenNotification";
 import { numberSplit } from "@/utils/numberSplit";
@@ -19,7 +19,7 @@ Notifications.setNotificationHandler({
 });
 
 export const PushNotificationManager: React.FC<PropsWithChildren<object>> = ({ children }) => {
-  const globalUser = useContext<UserContextType | null>(UserContext);
+  const { setUser } = useContext<UserContextType>(UserContext);
   const { isSignedIn, userId } = useAuth();
   const { session } = useSession();
 
@@ -42,8 +42,7 @@ export const PushNotificationManager: React.FC<PropsWithChildren<object>> = ({ c
         expoPushToken: tokenNotif! as `ExponentPushToken[${string}]`,
       });
 
-      globalUser?.setUser(checkUserTokenResult.data[0]);
-      console.log(2322);
+      setUser(checkUserTokenResult.data[0]);
     });
 
     // Notification received listener
