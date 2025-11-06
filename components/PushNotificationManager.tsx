@@ -42,7 +42,16 @@ export const PushNotificationManager: React.FC<PropsWithChildren<object>> = ({ c
         expoPushToken: tokenNotif! as `ExponentPushToken[${string}]`,
       });
 
-      setUser(checkUserTokenResult.data[0]);
+      if (
+        checkUserTokenResult &&
+        checkUserTokenResult.status === "success" &&
+        Array.isArray(checkUserTokenResult.data) &&
+        checkUserTokenResult.data.length > 0
+      ) {
+        setUser(checkUserTokenResult.data[0]);
+      } else {
+        console.log("Error checking user token:", checkUserTokenResult);
+      }
     });
 
     // Notification received listener

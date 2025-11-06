@@ -31,7 +31,7 @@ export const globalStyles = StyleSheet.create({
   headingSection: {
     fontWeight: 800,
   },
-  productListContainer: {
+  ListContainer: {
     gap: 10,
     marginTop: 30,
   },
@@ -67,14 +67,14 @@ export const cardStyles = StyleSheet.create({
     borderRadius: 7,
     boxShadow: "2px 4px 9px 0px rgba(0, 0, 0, 0.25)",
   },
-  headingCardProduct: {
+  heading: {
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 10,
     maxWidth: 270,
     color: COLORS.secondary,
   },
-  subHeadingCardProduct: {
+  subHeading: {
     fontSize: 12,
     fontWeight: "400",
     color: COLORS.subText,
@@ -105,6 +105,22 @@ export const navBarStyles = StyleSheet.create({
     color: COLORS.backgroundUtils,
     fontSize: 14,
   },
+  notificationBadge: {
+    position: "absolute",
+    top: -3,
+    right: -3,
+    backgroundColor: COLORS.error,
+    width: 20,
+    height: 20,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textNotification: {
+    color: COLORS.backgroundUtils,
+    fontSize: 12,
+    fontWeight: "bold",
+  }
 });
 
 export const footerStyles = StyleSheet.create({

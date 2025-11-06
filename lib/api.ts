@@ -39,6 +39,15 @@ export type UserType = {
   updatedAt: string;
 };
 
+export type notificationType = {
+  id: string;
+  userId: string;
+  title: string;
+  message: string;
+  seen: boolean;
+  createdAt: string;
+};
+
 export type categoryStatusType = "expired" | "expiringSoon" | "expiringLater" | "goodProducts";
 
 export type apiProductType = {
@@ -58,4 +67,10 @@ export type apiUsersType = {
   status: "success" | "error";
   message: string;
   data: UserType[];
+};
+
+export type apiNotificationType = {
+  status: "success" | "error";
+  message: string;
+  data: notificationType[];
 };

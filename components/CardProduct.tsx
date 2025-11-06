@@ -14,10 +14,10 @@ export const CardProduct = ({
   return (
     <TouchableOpacity style={cardStyles.container} activeOpacity={0.7} onPress={fnOnPress}>
       <View>
-        <Text style={cardStyles.headingCardProduct}>{description}</Text>
-        <Text style={cardStyles.subHeadingCardProduct}>quantity: {quantity}</Text>
-        <Text style={cardStyles.subHeadingCardProduct}>SKU: {skuNumber}</Text>
-        <Text style={cardStyles.subHeadingCardProduct}>EXP: {expiredDate}</Text>
+        <Text style={cardStyles.heading}>{description}</Text>
+        <Text style={cardStyles.subHeading}>quantity: {quantity}</Text>
+        <Text style={cardStyles.subHeading}>SKU: {skuNumber}</Text>
+        <Text style={cardStyles.subHeading}>EXP: {expiredDate}</Text>
       </View>
       <Ionicons name="chevron-forward" size={40} color={COLORS.secondary} />
     </TouchableOpacity>

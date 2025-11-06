@@ -6,6 +6,8 @@ import { ItemInventoryGrid } from "@/components/ItemInventoryGrid";
 import { NavbarComponent } from "@/components/Navbar";
 import { Paginate } from "@/components/Paginate";
 import { SkeletonCard } from "@/components/SkeletonCard";
+import { COLORS } from "@/constants/Colors";
+import { UserContext, UserContextType } from "@/context/UserContext";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
 import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
 import { useGetProducts } from "@/hooks/useGetProducts";
@@ -15,7 +17,7 @@ import { randomParams } from "@/utils/randomParams";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import Animated from "react-native-reanimated";
@@ -24,6 +26,7 @@ const generateRandomParams = randomParams();
 
 const MainScreen = () => {
   const router = useRouter();
+  const { user } = useContext<UserContextType>(UserContext);
   const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">();
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -46,8 +49,8 @@ const MainScreen = () => {
 
   const { mutate: reFetchData } = useGetReFetchData({
     params: !sortBy
-      ? { ...generateRandomParamsState, setIsRefreshing }
-      : { sortBy, order, page, setIsRefreshing },
+      ? { ...generateRandomParamsState, setIsRefreshing, userId: user!.id }
+      : { sortBy, order, page, setIsRefreshing, userId: user!.id },
     mutationConfig: { onSuccess: () => setGenerateRandomParamsState(randomParams()) },
   });
 
@@ -59,14 +62,17 @@ const MainScreen = () => {
         contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={() => reFetchData({ sortBy, order, page })} />
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => reFetchData({ sortBy, order, page, userId: user!.id })}
+          />
         }
       >
         {/* grid of categories */}
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>
         <View style={InventorySectionStyles.InventoryOverViewGrid}>
           <ItemInventoryGrid
-            backgroundColor="#1E1E1E"
+            backgroundColor={COLORS.backgroundExpired}
             icon="close"
             heading="Expired"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.expired}
@@ -74,7 +80,7 @@ const MainScreen = () => {
             onPress={() => router.push("/category/:expired")}
           />
           <ItemInventoryGrid
-            backgroundColor="#E7362D"
+            backgroundColor={COLORS.backgroundExpiringSoon}
             icon="hourglass-outline"
             heading="Expiring Soon"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.expiringSoon}
@@ -82,7 +88,7 @@ const MainScreen = () => {
             onPress={() => router.push("/category/:expiringSoon")}
           />
           <ItemInventoryGrid
-            backgroundColor="#F78910"
+            backgroundColor={COLORS.backgroundExpiringLater}
             icon="timer-outline"
             heading="Expiring Later"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.expiringLater}
@@ -90,7 +96,7 @@ const MainScreen = () => {
             onPress={() => router.push("/category/:expiringLater")}
           />
           <ItemInventoryGrid
-            backgroundColor="#02B656"
+            backgroundColor={COLORS.backgroundGoodProducts}
             icon="checkmark"
             heading="Good Products"
             qty={isProductCountsLoading || isProductCountsError ? 0 : productCounts!.goodProducts}
@@ -149,7 +155,7 @@ const MainScreen = () => {
           </View>
         </View>
         {/* product list content */}
-        <View style={globalStyles.productListContainer}>
+        <View style={globalStyles.ListContainer}>
           {isProductListLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError ? (

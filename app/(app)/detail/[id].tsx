@@ -44,7 +44,7 @@ const DetailProductScreen = () => {
         {isLoadingProduct ? (
           <SkeletonDetail />
         ) : isErrorProduct ? (
-          <ErrorView />
+          <ErrorView message="Something went wrong!" />
         ) : (
           <View>
             <View

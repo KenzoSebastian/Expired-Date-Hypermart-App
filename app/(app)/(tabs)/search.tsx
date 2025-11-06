@@ -62,7 +62,7 @@ const SearchScreen = () => {
             onChangeText={setSearchValue}
           />
         </View>
-        <View style={globalStyles.productListContainer}>
+        <View style={globalStyles.ListContainer}>
           {isProductListLoading || isProductSearchLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError || isProductSearchError ? (

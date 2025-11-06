@@ -12,11 +12,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <ClerkProvider tokenCache={tokenCache}>
         <UserContextProvider>
-          <PushNotificationManager>
-            <SafeScreen>
+          <SafeScreen>
+            <PushNotificationManager>
               <Slot />
-            </SafeScreen>
-          </PushNotificationManager>
+            </PushNotificationManager>
+          </SafeScreen>
         </UserContextProvider>
       </ClerkProvider>
     </QueryClientProvider>

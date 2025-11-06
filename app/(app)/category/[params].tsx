@@ -71,7 +71,7 @@ const CategoryScreen = () => {
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>
           Products ({productList?.meta.totalItems || 0})
         </Text>
-        <View style={globalStyles.productListContainer}>
+        <View style={globalStyles.ListContainer}>
           {isProductListLoading ? (
             Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError ? (
