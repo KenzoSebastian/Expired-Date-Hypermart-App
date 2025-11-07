@@ -5,9 +5,10 @@ import { NavbarDetails } from "@/components/NavbarDetails";
 import { SkeletonCardNotif } from "@/components/SkeletonCardNotif";
 import { COLORS } from "@/constants/Colors";
 import { UserContext } from "@/context/UserContext";
+import { useDeleteNotification } from "@/hooks/useDeleteNotification";
 import { useGetNotification } from "@/hooks/useGetNotification";
 import React, { useContext, useState } from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 const headerNotificationsScreen = () => {
@@ -35,12 +36,25 @@ const NotificationScreen = () => {
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await refetchNotifications(); // Panggil refetch dari hook Anda
+    await refetchNotifications();
     setIsRefreshing(false);
+  };
+
+  const { mutateAsync: deleteNotification } = useDeleteNotification({
+    mutationConfig: {
+      onSuccess: () => {
+        refetchNotifications();
+      },
+    },
+  });
+
+  const handleDeleteNotification = async (id: string) => {
+    const response = await deleteNotification({ id });
+    console.log(response);
   };
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
-      {isLoadingNotifications || isErrorNotifications ? (
+      {isLoadingNotifications || isErrorNotifications || notifications?.data.length === 0 ? (
         <>
           {/* navigation bar */}
           <NavbarDetails title={"Notifications"} />
@@ -50,12 +64,7 @@ const NotificationScreen = () => {
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}
-                onRefresh={() => {
-                  setIsRefreshing(true);
-                  setTimeout(() => {
-                    setIsRefreshing(false);
-                  }, 500);
-                }}
+                onRefresh={onRefresh}
               />
             }
           >
@@ -65,6 +74,9 @@ const NotificationScreen = () => {
               {isLoadingNotifications &&
                 Array.from({ length: 10 }).map((_, index) => <SkeletonCardNotif key={index} />)}
               {isErrorNotifications && <ErrorView message={"Error fetching notifications."} />}
+              {notifications?.data.length === 0 && (
+                <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>No notifications found</Text>
+              )}
             </View>
           </ScrollView>
         </>
@@ -75,14 +87,14 @@ const NotificationScreen = () => {
             <SwipeListView
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
-              data={notifications?.data || []} // Pastikan data adalah array, bahkan jika kosong
+              data={notifications?.data || []}
               renderItem={({ item }) => (
                 <View style={{ backgroundColor: "black", height: 120, marginBottom: 10, borderRadius: 7 }}>
                   <CardNotification {...item} fnOnPress={() => {}} />
                 </View>
               )}
-              renderHiddenItem={() => (
-                <View
+              renderHiddenItem={({ item }) => (
+                <TouchableOpacity
                   style={{
                     flexDirection: "row",
                     justifyContent: "flex-end",
@@ -92,9 +104,11 @@ const NotificationScreen = () => {
                     paddingRight: 20,
                     borderRadius: 7,
                   }}
+                  onPress={() => handleDeleteNotification(item.id)}
+                  activeOpacity={0.8}
                 >
                   <Text style={{ ...globalStyles.headingSection, color: "white" }}>Delete</Text>
-                </View>
+                </TouchableOpacity>
               )}
               keyExtractor={(item) => item.id.toString()}
               refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
