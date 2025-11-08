@@ -9,7 +9,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
 
-const DetailProductScreen = () => {
+export default function DetailProductScreen() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -69,6 +69,4 @@ const DetailProductScreen = () => {
       </ScrollView>
     </View>
   );
-};
-
-export default DetailProductScreen;
+}

@@ -9,7 +9,7 @@ import { Image } from "expo-image";
 import React, { useContext } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-const ProfileScreen = () => {
+export default function ProfileScreen() {
   const { user } = useContext<UserContextType>(UserContext);
   const { signOut } = useAuth();
 
@@ -52,5 +52,3 @@ const ProfileScreen = () => {
     </View>
   );
 };
-
-export default ProfileScreen;

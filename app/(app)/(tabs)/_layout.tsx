@@ -5,11 +5,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
 import React from "react";
 
-const TabsLayout = () => {
+export default function TabsLayout() {
   const { isSignedIn } = useAuth();
 
   if (!isSignedIn) return <Redirect href="/login" />;
-  
+
   return (
     <Tabs
       screenOptions={{
@@ -50,6 +50,4 @@ const TabsLayout = () => {
       />
     </Tabs>
   );
-};
-
-export default TabsLayout;
+}

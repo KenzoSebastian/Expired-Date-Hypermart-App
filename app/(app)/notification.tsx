@@ -21,7 +21,7 @@ const headerNotificationsScreen = () => {
 
 const footerNotificationsScreen = () => <View style={{ height: 75 }} />;
 
-const NotificationScreen = () => {
+export default function NotificationScreen() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const { user } = useContext(UserContext);
 
@@ -61,12 +61,7 @@ const NotificationScreen = () => {
           <ScrollView
             contentContainerStyle={globalStyles.scrollViewContainer}
             showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={onRefresh}
-              />
-            }
+            refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
           >
             {/* notification content */}
             <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>System Alerts</Text>
@@ -131,6 +126,4 @@ const NotificationScreen = () => {
       )}
     </View>
   );
-};
-
-export default NotificationScreen;
+}

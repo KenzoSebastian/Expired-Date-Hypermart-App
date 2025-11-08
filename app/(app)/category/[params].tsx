@@ -11,7 +11,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 
-const CategoryScreen = () => {
+export default function CategoryScreen() {
   const router = useRouter();
   const { params } = useLocalSearchParams<{ params: string }>();
   const [categoryStatus, setCategoryStatus] = useState<string>("");
@@ -85,21 +85,28 @@ const CategoryScreen = () => {
               <Text style={{ ...globalStyles.headingSection, fontSize: 25 }}>No products found...</Text>
             </View>
           ) : (
-            productList!.data.map((product: ProductType) => <CardProduct key={product.id} {...product} fnOnPress={() => router.push(`/detail/:${product.id}`)} />)
+            productList!.data.map((product: ProductType) => (
+              <CardProduct
+                key={product.id}
+                {...product}
+                fnOnPress={() => router.push(`/detail/:${product.id}`)}
+              />
+            ))
           )}
         </View>
         {/* pagination */}
-        {!isProductListLoading && !isProductListError && productList!.data.length > 0 && productList!.meta.totalPages > 1 && (
-          <Paginate
-            page={productList!.meta.page}
-            setPage={setPage}
-            totalPages={productList!.meta.totalPages}
-            productList={productList!}
-          />
-        )}
+        {!isProductListLoading &&
+          !isProductListError &&
+          productList!.data.length > 0 &&
+          productList!.meta.totalPages > 1 && (
+            <Paginate
+              page={productList!.meta.page}
+              setPage={setPage}
+              totalPages={productList!.meta.totalPages}
+              productList={productList!}
+            />
+          )}
       </ScrollView>
     </View>
   );
-};
-
-export default CategoryScreen;
+}

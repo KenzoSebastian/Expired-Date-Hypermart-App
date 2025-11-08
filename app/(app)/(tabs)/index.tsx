@@ -24,7 +24,7 @@ import Animated from "react-native-reanimated";
 
 const generateRandomParams = randomParams();
 
-const MainScreen = () => {
+export default function MainScreen() {
   const router = useRouter();
   const { user } = useContext<UserContextType>(UserContext);
   const [sortBy, setSortBy] = useState<"description" | "expiredDate" | "createdAt">();
@@ -182,6 +182,4 @@ const MainScreen = () => {
       </ScrollView>
     </View>
   );
-};
-
-export default MainScreen;
+}

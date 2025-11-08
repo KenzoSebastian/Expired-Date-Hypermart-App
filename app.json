@@ -16,7 +16,9 @@
         "foregroundImage": "./assets/images/icon-splash.png",
         "backgroundColor": "#ffffffff"
       },
-      "edgeToEdgeEnabled": false
+      "edgeToEdgeEnabled": false,
+      "package": "com.kenzosebastian.expireddatehypermartapp",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",

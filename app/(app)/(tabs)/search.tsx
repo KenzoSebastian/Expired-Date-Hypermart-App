@@ -16,7 +16,7 @@ import { ScrollView, Text, TextInput, View } from "react-native";
 
 const generateRandomParams = randomParams();
 
-const SearchScreen = () => {
+export default function SearchScreen() {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>("");
   const searchQuery = useDebounce(searchValue, 500);
@@ -66,7 +66,7 @@ const SearchScreen = () => {
           {isProductListLoading || isProductSearchLoading ? (
             Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError || isProductSearchError ? (
-            <ErrorView message="Failed to fetch products"/>
+            <ErrorView message="Failed to fetch products" />
           ) : searchQuery === "" ? (
             productList!.data.map((product: ProductType) => (
               <CardProduct
@@ -90,6 +90,4 @@ const SearchScreen = () => {
       </ScrollView>
     </View>
   );
-};
-
-export default SearchScreen;
+}

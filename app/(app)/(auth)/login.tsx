@@ -17,7 +17,7 @@ import {
   View,
 } from "react-native";
 
-const LoginScreen = () => {
+export default function LoginScreen() {
   const { signIn, setActive, isLoaded } = useSignIn();
   const [Error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -157,6 +157,4 @@ const LoginScreen = () => {
       </KeyboardAvoidingView>
     </View>
   );
-};
-
-export default LoginScreen;
+}
