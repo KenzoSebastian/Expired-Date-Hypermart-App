@@ -10,8 +10,8 @@ import { COLORS } from "@/constants/Colors";
 import { UserContext, UserContextType } from "@/context/UserContext";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
 import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
+import { useGetNotification } from "@/hooks/useGetNotification";
 import { useGetProducts } from "@/hooks/useGetProducts";
-import { useGetReFetchData } from "@/hooks/useGetReFetchData";
 import { type ProductType } from "@/lib/api";
 import { randomParams } from "@/utils/randomParams";
 import { Ionicons } from "@expo/vector-icons";
@@ -37,22 +37,34 @@ export default function MainScreen() {
     data: productCounts,
     isLoading: isProductCountsLoading,
     isError: isProductCountsError,
+    refetch: reFetchCategoryCounts,
   } = useGetCategoryCount({ params: { isRefreshing } });
 
   const {
     data: productList,
     isLoading: isProductListLoading,
     isError: isProductListError,
+    refetch: reFetchProductsList,
   } = useGetProducts({
     params: !sortBy ? generateRandomParamsState : { sortBy, order, page, isRefreshing },
   });
 
-  const { mutate: reFetchData } = useGetReFetchData({
-    params: !sortBy
-      ? { ...generateRandomParamsState, setIsRefreshing, userId: user!.id }
-      : { sortBy, order, page, setIsRefreshing, userId: user!.id },
-    mutationConfig: { onSuccess: () => setGenerateRandomParamsState(randomParams()) },
-  });
+  const { refetch: refetchNotifications } = useGetNotification({ params: { userId: user!.id } });
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+
+    const reFetchProductsListQuery = reFetchProductsList();
+    const reFetchCategoryCountsQuery = reFetchCategoryCounts();
+    const reFetchNotificationsQuery = refetchNotifications();
+
+    const response = await Promise.all([reFetchCategoryCountsQuery, reFetchProductsListQuery, reFetchNotificationsQuery]);
+
+    if (response[0].status === "success" && response[1].status === "success" && response[2].status === "success") {
+      setGenerateRandomParamsState(randomParams());
+    }
+    setIsRefreshing(false);
+  };
 
   return (
     <View style={globalStyles.container}>
@@ -64,7 +76,7 @@ export default function MainScreen() {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={() => reFetchData({ sortBy, order, page, userId: user!.id })}
+            onRefresh={onRefresh}
           />
         }
       >

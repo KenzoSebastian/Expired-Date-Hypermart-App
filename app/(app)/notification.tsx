@@ -50,7 +50,9 @@ export default function NotificationScreen() {
 
   const handleDeleteNotification = async (id: string) => {
     const response = await deleteNotification({ id });
-    console.log(response);
+    if (response.status === "success") {
+      refetchNotifications();
+    }
   };
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
