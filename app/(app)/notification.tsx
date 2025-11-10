@@ -24,7 +24,6 @@ const footerNotificationsScreen = () => <View style={{ height: 75 }} />;
 export default function NotificationScreen() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const { user } = useContext(UserContext);
-
   const {
     data: notifications,
     isLoading: isLoadingNotifications,
@@ -34,10 +33,15 @@ export default function NotificationScreen() {
     params: { userId: user!.id, isRefreshing },
   });
 
+  const [isLoading, setIsLoading] = useState<boolean>(isLoadingNotifications);
+
+
   const onRefresh = async () => {
     setIsRefreshing(true);
+    setIsLoading(true);
     await refetchNotifications();
     setIsRefreshing(false);
+    setIsLoading(false);
   };
 
   const { mutateAsync: deleteNotification } = useDeleteNotification({
@@ -49,14 +53,16 @@ export default function NotificationScreen() {
   });
 
   const handleDeleteNotification = async (id: string) => {
+    setIsLoading(true);
     const response = await deleteNotification({ id });
     if (response.status === "success") {
       refetchNotifications();
     }
+    setIsLoading(false);
   };
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
-      {isLoadingNotifications || isErrorNotifications || notifications?.data.length === 0 ? (
+      {isLoading || isErrorNotifications || notifications?.data.length === 0 ? (
         <>
           {/* navigation bar */}
           <NavbarDetails title={"Notifications"} />
@@ -68,7 +74,7 @@ export default function NotificationScreen() {
             {/* notification content */}
             <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>System Alerts</Text>
             <View style={globalStyles.ListContainer}>
-              {isLoadingNotifications &&
+              {isLoading &&
                 Array.from({ length: 10 }).map((_, index) => <SkeletonCardNotif key={index} />)}
               {isErrorNotifications && <ErrorView message={"Error fetching notifications."} />}
               {notifications?.data.length === 0 && (

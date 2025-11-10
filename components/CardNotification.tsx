@@ -18,7 +18,8 @@ export const CardNotification = ({
     <TouchableOpacity
       style={{
         ...cardStyles.container,
-        gap: 10,
+        paddingLeft: 5,
+        gap: 3,
         backgroundColor: seen ? COLORS.card : COLORS.backgroundExpiringLater,
       }}
       activeOpacity={0.8}
@@ -30,7 +31,11 @@ export const CardNotification = ({
         color={seen ? COLORS.secondary : COLORS.backgroundUtils}
       />
       <View style={{ flex: 1 }}>
-        <Text style={{ ...cardStyles.heading, color: seen ? COLORS.secondary : COLORS.backgroundUtils }}>
+        <Text
+          style={{ ...cardStyles.heading, color: seen ? COLORS.secondary : COLORS.backgroundUtils }}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
           {title}
         </Text>
         <Text
@@ -39,6 +44,8 @@ export const CardNotification = ({
             fontWeight: "500",
             color: seen ? COLORS.text : COLORS.backgroundUtils,
           }}
+          numberOfLines={2}
+          ellipsizeMode="tail"
         >
           {message}
         </Text>
