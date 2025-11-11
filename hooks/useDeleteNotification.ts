@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 
 type useDeleteNotificationProps = {
   mutationConfig?: MutationConfig<typeof deleteNotification>;
-  // params: deleteNotificationRequest;
 };
 
 export const useDeleteNotification = ({ mutationConfig }: useDeleteNotificationProps = {}) => {

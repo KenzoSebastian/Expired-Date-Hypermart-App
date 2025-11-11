@@ -42,6 +42,7 @@ export type UserType = {
 export type notificationType = {
   id: string;
   userId: string;
+  productId: number;
   title: string;
   message: string;
   seen: boolean;

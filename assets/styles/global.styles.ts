@@ -43,15 +43,15 @@ export const errorStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  logo: { 
-    width: 150, 
-    height: 150, 
-    marginBottom: 20 
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
   },
-  text: { 
-    fontSize: 20, 
-    color: "red", 
-    fontWeight: "bold", 
+  text: {
+    fontSize: 20,
+    color: "red",
+    fontWeight: "bold",
     maxWidth: 300,
   },
 });
@@ -79,6 +79,7 @@ export const cardStyles = StyleSheet.create({
     fontWeight: "400",
     color: COLORS.subText,
   },
+  overlay: { backgroundColor: "black", height: 120, marginBottom: 10, borderRadius: 7 },
 });
 
 export const navBarStyles = StyleSheet.create({
@@ -120,7 +121,7 @@ export const navBarStyles = StyleSheet.create({
     color: COLORS.backgroundUtils,
     fontSize: 12,
     fontWeight: "bold",
-  }
+  },
 });
 
 export const footerStyles = StyleSheet.create({
