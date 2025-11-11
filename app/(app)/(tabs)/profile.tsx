@@ -7,7 +7,7 @@ import { formatDate } from "@/utils/dateFormatter";
 import { useAuth } from "@clerk/clerk-expo";
 import { Image } from "expo-image";
 import React, { useContext } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function ProfileScreen() {
   const { user } = useContext<UserContextType>(UserContext);
@@ -15,12 +15,24 @@ export default function ProfileScreen() {
 
   if (!user) return null;
 
-  const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.log("Error signing out:", error);
-    }
+  const handleLogout = () => {
+    Alert.alert("Logout", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Logout",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await signOut();
+          } catch (error) {
+            console.log("Error signing out:", error);
+          }
+        },
+      },
+    ]);
   };
 
   return (
@@ -51,4 +63,4 @@ export default function ProfileScreen() {
       </ScrollView>
     </View>
   );
-};
+}

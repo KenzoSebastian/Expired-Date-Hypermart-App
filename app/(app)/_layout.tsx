@@ -20,6 +20,10 @@ export default function AppLayout() {
   if (isSignedIn === undefined || (user === undefined && isSignedIn)) {
     return (
       <View style={{ ...globalStyles.container, alignItems: "center", gap: 70 }}>
+        <Image
+          source={require("@/assets/images/bg-login-form.png")}
+          style={{ position: "absolute", width: "100%", height: "100%", opacity: 0.1 }}
+        />
         <Image source={require("@/assets/images/logo2.png")} style={{ width: 320, objectFit: "contain" }} />
         <Text style={{ ...globalStyles.headingSection, fontSize: 30 }}>{textLoading}</Text>
       </View>

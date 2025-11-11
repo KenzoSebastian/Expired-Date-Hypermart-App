@@ -10,7 +10,7 @@ import { useGetNotification } from "@/hooks/useGetNotification";
 import { useUpdateSeenNotification } from "@/hooks/useUpdateSeenNotification";
 import { useRouter } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
-import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 const headerNotificationsScreen = () => {
@@ -72,13 +72,22 @@ export default function NotificationScreen() {
     }
   };
 
-  const handleDeleteNotification = async (id: string) => {
-    setIsLoading(true);
-    const response = await deleteNotification({ id });
-    if (response.status === "success") {
-      refetchNotifications();
-    }
-    setIsLoading(false);
+  const handleDeleteNotification = (id: string) => {
+    Alert.alert("Delete Notification", "Are you sure you want to delete this notification?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          setIsLoading(true);
+          await deleteNotification({ id });
+          setIsLoading(false);
+        },
+      },
+    ]);
   };
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.backgroundApps }}>
