@@ -4,16 +4,22 @@
     "slug": "expired-date-hypermart-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon-splash.png",
+    "icon": "./assets/icons/adaptive-icon.png",
     "scheme": "expireddatehypermartapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": {
+        "dark": "./assets/icons/ios-dark.png",
+        "light": "./assets/icons/ios-light.png",
+        "tinted": "./assets/icons/ios-tinted.png"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon-splash.png",
+        "foregroundImage": "./assets/icons/adaptive-icon.png",
+        "monochromeImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffffff"
       },
       "edgeToEdgeEnabled": false,
@@ -30,10 +36,14 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/icon-splash.png",
+          "image": "./assets/icons/splash-icon-dark.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffffff"
+          "backgroundColor": "#ffffffff",
+          "dark": {
+            "image": "./assets/icons/splash-icon-dark.png",
+            "backgroundColor": "#000000"
+          }
         }
       ]
     ],

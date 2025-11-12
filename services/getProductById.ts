@@ -15,17 +15,13 @@ export const getProductsById = async ({ id }: getProductsByIdRequest): Promise<a
   }
 };
 
-export type getProductsByIdQueryKeyProps = getProductsByIdRequest & { isRefreshing?: boolean };
+export type getProductsByIdQueryKeyProps = getProductsByIdRequest;
 
-export const getProductsByIdQueryKey = ({ id, isRefreshing = false }: getProductsByIdQueryKeyProps) => [
-  "productsById",
-  id,
-  isRefreshing,
-];
+export const getProductsByIdQueryKey = ({ id }: getProductsByIdQueryKeyProps) => ["productsById", id];
 
-export const getProductsByIdQueryOptions = ({ id, isRefreshing }: getProductsByIdQueryKeyProps) => {
+export const getProductsByIdQueryOptions = ({ id }: getProductsByIdQueryKeyProps) => {
   return queryOptions({
-    queryKey: getProductsByIdQueryKey({ id, isRefreshing }),
+    queryKey: getProductsByIdQueryKey({ id }),
     queryFn: () => getProductsById({ id }),
   });
 };

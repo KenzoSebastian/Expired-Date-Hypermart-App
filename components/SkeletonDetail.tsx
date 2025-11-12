@@ -8,7 +8,13 @@ const SkeletonLoadingElement: ElementType<typeof SkeletonLoading> | any = Skelet
 
 export const SkeletonDetail = () => {
   return (
-    <View style={{ width: "100%" }}>
+    <View
+      style={{
+        width: "100%",
+        justifyContent: "space-between",
+        flex: 1,
+      }}
+    >
       <View
         style={{ ...cardStyles.container, justifyContent: "center", paddingVertical: 40, marginBottom: 40 }}
       >
@@ -70,6 +76,16 @@ export const SkeletonDetail = () => {
           />
         </SkeletonLoadingElement>
       </View>
+      <SkeletonLoadingElement {...skeletonProps}>
+        <View
+          style={{
+            width: 340,
+            height: 65,
+            alignSelf: "center",
+            ...skeletonStyles.dummyContent,
+          }}
+        />
+      </SkeletonLoadingElement>
     </View>
   );
 };
