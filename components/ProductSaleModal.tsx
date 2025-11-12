@@ -59,7 +59,8 @@ export const ProductSaleModal = ({
     }
 
     const remainingQuantity = currentQuantity - quantityToReduce;
-
+    // if remainingQuantity is 0, delete the product
+    // `else` will update the quantity to the remainingQuantity
     await updateQuantityProduct({ id: productId, quantity: remainingQuantity });
   };
 
