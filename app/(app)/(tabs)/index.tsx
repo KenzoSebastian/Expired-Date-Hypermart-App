@@ -58,9 +58,17 @@ export default function MainScreen() {
     const reFetchCategoryCountsQuery = reFetchCategoryCounts();
     const reFetchNotificationsQuery = refetchNotifications();
 
-    const response = await Promise.all([reFetchCategoryCountsQuery, reFetchProductsListQuery, reFetchNotificationsQuery]);
+    const response = await Promise.all([
+      reFetchCategoryCountsQuery,
+      reFetchProductsListQuery,
+      reFetchNotificationsQuery,
+    ]);
 
-    if (response[0].status === "success" && response[1].status === "success" && response[2].status === "success") {
+    if (
+      response[0].status === "success" &&
+      response[1].status === "success" &&
+      response[2].status === "success"
+    ) {
       setGenerateRandomParamsState(randomParams());
     }
     setIsRefreshing(false);
@@ -73,12 +81,7 @@ export default function MainScreen() {
       <ScrollView
         contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-          />
-        }
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
       >
         {/* grid of categories */}
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>Inventory Overview</Text>

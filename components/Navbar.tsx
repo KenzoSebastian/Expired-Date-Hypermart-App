@@ -29,7 +29,7 @@ export const NavbarComponent = () => {
         style={{ marginLeft: "auto", marginRight: 15 }}
       >
         <Ionicons name="notifications-outline" size={35} color={COLORS.backgroundUtils} />
-        {data && data?.data.length > 0 && (
+        {unseenNotifications && unseenNotifications.length > 0 && (
           <View style={navBarStyles.notificationBadge}>
             <Text style={navBarStyles.textNotification}>{unseenNotifications?.length}</Text>
           </View>

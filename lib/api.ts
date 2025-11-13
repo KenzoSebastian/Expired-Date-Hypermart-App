@@ -58,6 +58,13 @@ export type apiProductType = {
   meta: MetaType;
 };
 
+export type apiProductSearchType = {
+  status: "success" | "error";
+  message: string;
+  data: ProductType[];
+  meta: { totalItems: number };
+};
+
 export type apiSingleProductType = {
   status: "success" | "error";
   message: string;

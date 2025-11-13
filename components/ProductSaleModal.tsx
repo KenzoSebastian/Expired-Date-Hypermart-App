@@ -1,7 +1,10 @@
 import { detailStyles } from "@/assets/styles/detail.styles";
 import { cardStyles, globalStyles } from "@/assets/styles/global.styles";
 import { COLORS } from "@/constants/Colors";
+import { useDeleteProduct } from "@/hooks/useDeleteProduct";
 import { useUpdateQuantityProduct } from "@/hooks/useUpdateQuantityProduct";
+import { queryClient } from "@/lib/query-client";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Alert, Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 
@@ -20,6 +23,7 @@ export const ProductSaleModal = ({
   currentQuantity,
   refetchProduct,
 }: ProductSaleModalProps) => {
+  const router = useRouter();
   const [soldQuantity, setSoldQuantity] = useState("");
   const max = currentQuantity;
 
@@ -28,6 +32,17 @@ export const ProductSaleModal = ({
       onSuccess: () => {
         onClose();
         refetchProduct();
+      },
+    },
+  });
+
+  const { mutateAsync: deleteProduct } = useDeleteProduct({
+    mutationConfig: {
+      onSuccess: () => {
+        onClose();
+        refetchProduct();
+        router.replace("/");
+        queryClient.invalidateQueries();
       },
     },
   });
@@ -59,9 +74,12 @@ export const ProductSaleModal = ({
     }
 
     const remainingQuantity = currentQuantity - quantityToReduce;
-    // if remainingQuantity is 0, delete the product
-    // `else` will update the quantity to the remainingQuantity
-    await updateQuantityProduct({ id: productId, quantity: remainingQuantity });
+
+    if (remainingQuantity === 0) {
+      await deleteProduct({ id: productId });
+    } else {
+      await updateQuantityProduct({ id: productId, quantity: remainingQuantity });
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import { type apiNotificationType, axiosInstance } from "@/lib/api";
+import { type apiProductType, axiosInstance } from "@/lib/api";
 
 export type updateQuantityProductRequest = {
   id: number;
@@ -8,7 +8,7 @@ export type updateQuantityProductRequest = {
 export const updateQuantityProduct = async ({
   id,
   quantity,
-}: updateQuantityProductRequest): Promise<apiNotificationType> => {
+}: updateQuantityProductRequest): Promise<apiProductType> => {
   try {
     const { data } = await axiosInstance.patch("/products/update/quantity", { id, quantity });
     return data;

@@ -1,7 +1,7 @@
-import { axiosInstance } from "@/lib/api";
+import { type apiProductSearchType, axiosInstance } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 
-export const getSearchProducts = async (searchQuery: string) => {
+export const getSearchProducts = async (searchQuery: string): Promise<apiProductSearchType> => {
   try {
     const { data } = await axiosInstance.get(`/products/search/?searchQuery=${searchQuery}`);
     return data;
