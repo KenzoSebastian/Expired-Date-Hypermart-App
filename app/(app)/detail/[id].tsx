@@ -26,10 +26,8 @@ export default function DetailProductScreen() {
 
   const onRefreshHandler = async () => {
     setIsRefreshing(true);
-    const response = await refetchProduct();
-    if (response.status === "success") {
-      setIsRefreshing(false);
-    }
+    await refetchProduct();
+    setIsRefreshing(false);
   };
 
   const productData = Product?.data;

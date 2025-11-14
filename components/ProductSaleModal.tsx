@@ -3,6 +3,7 @@ import { cardStyles, globalStyles } from "@/assets/styles/global.styles";
 import { COLORS } from "@/constants/Colors";
 import { useDeleteProduct } from "@/hooks/useDeleteProduct";
 import { useUpdateQuantityProduct } from "@/hooks/useUpdateQuantityProduct";
+import { queryClient } from "@/lib/query-client";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Alert, Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -40,6 +41,7 @@ export const ProductSaleModal = ({
       onSuccess: () => {
         onClose();
         router.replace("/");
+        queryClient.invalidateQueries();
       },
     },
   });
