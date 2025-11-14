@@ -22,8 +22,6 @@ export const getCategoryCount = async (): Promise<CategoryCountType> => {
       queryGoodProduct,
     ]);
 
-    console.log("category count");
-
     return {
       expired: dataExpired.meta.totalItems,
       expiringSoon: dataExpiringSoon.meta.totalItems,

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { UserContext, UserContextType } from "@/context/UserContext";
+import { UserContext, type UserContextType } from "@/context/UserContext";
 import { checkUserToken } from "@/utils/checkUserToken";
 import { formatDate } from "@/utils/dateFormatter";
 import { getPushTokenNotification } from "@/utils/getPushTokenNotification";

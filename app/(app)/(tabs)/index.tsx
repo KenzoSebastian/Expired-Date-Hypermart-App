@@ -7,7 +7,7 @@ import { NavbarComponent } from "@/components/Navbar";
 import { Paginate } from "@/components/Paginate";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { COLORS } from "@/constants/Colors";
-import { UserContext, UserContextType } from "@/context/UserContext";
+import { UserContext, type UserContextType } from "@/context/UserContext";
 import { useAnimatedOrder } from "@/hooks/useAnimatedOrder";
 import { useGetCategoryCount } from "@/hooks/useGetCategoryCount";
 import { useGetNotification } from "@/hooks/useGetNotification";
