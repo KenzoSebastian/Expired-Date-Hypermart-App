@@ -22,9 +22,12 @@ export default function CategoryScreen() {
     data: productList,
     isLoading: isProductListLoading,
     isError: isProductListError,
+    refetch: refetchProductsList,
   } = useGetCategory({
     params: { category: params.split(":")[1] as categoryStatusType, page, isRefreshing },
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(isProductListLoading);
 
   useEffect(() => {
     switch (params.split(":")[1]) {
@@ -46,6 +49,18 @@ export default function CategoryScreen() {
     }
   }, [params, router]);
 
+  useEffect(() => setIsLoading(isProductListLoading), [isProductListLoading]);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    setIsLoading(true);
+
+    await refetchProductsList();
+
+    setIsRefreshing(false);
+    setIsLoading(false);
+  };
+
   if (!params) return null;
 
   return (
@@ -55,24 +70,14 @@ export default function CategoryScreen() {
       <ScrollView
         contentContainerStyle={globalStyles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              setIsRefreshing(true);
-              setTimeout(() => {
-                setIsRefreshing(false);
-              }, 500);
-            }}
-          />
-        }
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
       >
         {/* product list */}
         <Text style={{ ...globalStyles.headingSection, fontSize: 33 }}>
           Products ({productList?.meta.totalItems || 0})
         </Text>
         <View style={globalStyles.ListContainer}>
-          {isProductListLoading ? (
+          {isLoading ? (
             Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
           ) : isProductListError ? (
             <View style={errorStyles.container}>

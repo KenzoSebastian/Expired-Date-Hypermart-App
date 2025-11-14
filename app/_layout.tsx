@@ -6,11 +6,14 @@ import { ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Slot } from "expo-router";
+import Constants from "expo-constants";
 
 export default function RootLayout() {
+  const clerkPubishableKey = Constants.expoConfig?.extra?.CLERK_PUBLISHABLE_KEY;
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ClerkProvider tokenCache={tokenCache}>
+      <ClerkProvider tokenCache={tokenCache} publishableKey={clerkPubishableKey}>
         <UserContextProvider>
           <SafeScreen>
             <PushNotificationManager>

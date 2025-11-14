@@ -2,7 +2,7 @@ import { type apiProductType, categoryStatusType, axiosInstance } from "@/lib/ap
 import { queryOptions } from "@tanstack/react-query";
 
 type categoryProps = {
-  category: categoryStatusType;
+  category?: categoryStatusType;
   page?: number;
 };
 
@@ -16,14 +16,13 @@ export const getCategory = async ({ category, page }: categoryProps): Promise<ap
   }
 };
 
-export type getCategoryQueryKeyProps = categoryProps & { isRefreshing: boolean };
+export type getCategoryQueryKeyProps = categoryProps & { isRefreshing?: boolean };
 
-export const getCategoryQueryKey = ({ category, page, isRefreshing }: getCategoryQueryKeyProps) => [
-  "category",
-  category,
-  page,
-  isRefreshing,
-];
+export const getCategoryQueryKey = ({
+  category = "expired",
+  page = 1,
+  isRefreshing = false,
+}: getCategoryQueryKeyProps) => ["category", category, page, isRefreshing];
 
 export const getCategoryQueryOptions = ({ category, page, isRefreshing }: getCategoryQueryKeyProps) => {
   return queryOptions({
