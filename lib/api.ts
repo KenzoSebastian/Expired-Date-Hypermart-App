@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://api-expired-date-hypermart-app-1cq4.vercel.app/api",
+  baseURL: process.env.API_URL,
   headers: {
     "Content-Type": "application/json",
   },
