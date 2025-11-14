@@ -19,6 +19,7 @@ export default function TabsLayout() {
         tabBarStyle: tabBarStyle.tabBar,
         tabBarLabelStyle: tabBarStyle.label,
         animation: "shift",
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tabs.Screen
